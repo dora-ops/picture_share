@@ -1,15 +1,15 @@
 export const getUserFromLocalStroage = () => {
-  const userToken = localStorage.getItem('token');
-  const userInfo = localStorage.getItem('userInfo'); 
-  return userToken ? { userToken, userInfo } : undefined;
+  const token = localStorage.getItem('token');
+  const id = localStorage.getItem('id');  
+  return token ? { token, id } : undefined;
 }
 
-export const setTokenToLocalStroage = (token, userInfo) => {
+export const setTokenToLocalStroage = (token, id) => {
   localStorage.setItem('token', token);
-  localStorage.setItem('userInfo', JSON.stringify(userInfo));
+  localStorage.setItem('id', id);
 }
 
 export const deleteTokenFromLocalStroage = () => {
   localStorage.removeItem('token');
-  localStorage.removeItem('userInfo');
+  localStorage.removeItem('id');
 }

@@ -5,9 +5,10 @@ import App from './App'
 import router from './route'
 import store from './store';
 import './assets/scss/index.scss';
+import MiUI from './packages/index';
 
 Vue.config.productionTip = false
-
+Vue.use(MiUI);
 
 /* eslint-disable no-new */
 new Vue({

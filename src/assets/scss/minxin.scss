@@ -1,0 +1,5 @@
+@each $prop, $value in $circleColor{
+  .circle-#{$prop}{
+    color: $value;
+  }
+}

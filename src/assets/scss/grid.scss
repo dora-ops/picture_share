@@ -1,0 +1,15 @@
+.mi-grid{
+  display: grid;
+}
+
+@each $prop, $value in $items{
+  .mi-justifyItem-#{$prop} { justify-items: $value }
+  .mi-justifySelf-#{$prop} { justify-self: $value }
+  .mi-alignItem-#{$prop} { align-items: $value }    
+}
+
+@each $prop, $value in $contents{
+  .mi-justifyContent-#{$prop} { justify-content: $value }
+  .mi-alignSelf-#{$prop} { align-self: $value }
+  .mi-alignContent-#{$prop} { align-content: $value }
+}

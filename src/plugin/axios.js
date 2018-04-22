@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { getUserFromLocalStroage, deleteTokenFromLocalStroage } from '../util/auth';
+import { deleteTokenFromLocalStroage } from '../util/auth';
 import store from '../store/index';
 import router from '../route/index';
 
 const config = {
   baseURL: 'http://localhost:1234',
-  timeout: 1000,
+  timeout: 5000,
   responseType: 'json',
 }
 
@@ -15,9 +15,8 @@ const instance = axios.create(config);
 instance.interceptors.request.use(
   req => {
     const { user: { userToken } } = store.state;
-    const user = getUserFromLocalStroage();
     if(store.getters.isAuth){
-      req.headers.Authorization = `${userToken}`;
+      req.headers.Authorization = `Bearer ${userToken}`;
     }
     return req;
   },

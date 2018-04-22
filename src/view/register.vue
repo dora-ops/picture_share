@@ -64,7 +64,7 @@ import api from '../plugin/axios';
           }
           await this.postUser({ userEmail, userName, userPassword});
         } catch (error) {
-          console.log(123);
+          this.$router.push({name: 'error'});
         } 
       },
       async postUser(data){

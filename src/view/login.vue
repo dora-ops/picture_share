@@ -58,11 +58,11 @@ import { setTokenToLocalStroage } from '../util/auth';
           const { data } = isLogin;
           if(data.code === 200){
             // 获取令牌
-            const { data: { token }} = data;
+            const { data: { token, id }} = data;
             // 设置token
-            setTokenToLocalStroage(token, this.userEmail)
+            setTokenToLocalStroage(token, id)
             // vuex设置user状态 
-            this.$store.commit('LOGIN_IN', { token, userInfo: this.userEmail});
+            this.$store.commit('LOGIN_IN', {token, id});
             // 跳转主页
             this.$router.push({name: 'index'})
           }else{
@@ -71,6 +71,7 @@ import { setTokenToLocalStroage } from '../util/auth';
           }
         } catch (error) {
           console.log(error);
+          this.$router.push({name: 'error'});
         }
       },
       onLogin(){
