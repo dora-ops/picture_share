@@ -12,7 +12,7 @@
       <div class="user-wrapper">
          <div class="user-avatar">
            <img :src="userAvatar" alt="">
-          <mi-upload class="user-avatar--upload" :meta="{userId, filed: 'avatar'}" :after-upload="onAfterUpload">
+          <mi-upload class="user-avatar--upload" :meta="{userId, filed: 'avatar'}" :after-upload="onAfterUpload" :before-add="onBeforeAdd">
             <div class="user-avatar--mask"></div>
             <div class="user-avatar--content">修改图像</div>
           </mi-upload>
@@ -36,6 +36,16 @@
          </div>
        </div>
     </mi-grid>
+    <!-- 弹窗组件 -->
+    <mi-dialog :visible.sync="dialogVisible" title="编辑头像">
+      <div class="user-edit-avatar" slot="body" ref="cropObj">
+        <img :src="avatarData" alt="" srcset="">
+        <mi-crop width="160" height="160"></mi-crop>
+      </div>
+      <div class="user-edit-footer" slot="footer">
+        <button class="btn">保存</button>
+      </div>
+    </mi-dialog>
   </mi-grid> 
 </template>
 
@@ -48,7 +58,9 @@ import api from '../plugin/axios';
     data(){
       return {
         coverPic: '',
-        avatarUrl: ''
+        avatarData: '',
+        dialogVisible: false,
+        width: 160
       }
     },
     computed: {
@@ -81,6 +93,21 @@ import api from '../plugin/axios';
       },
       onAfterUpload(){
         this.getUserInfo();
+      },
+      async onBeforeAdd(file){
+        const base64Data = await this.createBase64Data(file);
+        this.avatarData = base64Data; 
+        this.dialogVisible = true;
+        return true;
+      },
+      createBase64Data(file){
+        return new Promise((resolve, reject)=>{
+          const reader = new FileReader();
+          reader.readAsDataURL(file);
+          reader.onload = (e)=>{
+            resolve(e.target.result);
+          }
+        })
       }
     },
     created(){
@@ -203,6 +230,28 @@ import api from '../plugin/axios';
         margin-left: 5px;
         margin-top: 15px;
       }
+    }
+  }
+  .user-edit-avatar{
+    width: 300px;
+    height: 200px;
+    margin: 0 auto;
+    position: relative;
+    & img {
+      width: 100%;
+      height: 200px;
+      object-fit: fill;
+    }
+  }
+  .user-edit-footer{
+    width: 80%;
+    line-height: 50px;
+    margin: 0 auto;
+    padding: 15px 0;
+    & .btn{
+      width: 60%;
+      border-color: #239fdb;
+      color: #239fdb;
     }
   }
 </style>

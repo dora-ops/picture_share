@@ -1,10 +1,14 @@
 import Vue from 'vue';
 import Grid from './grid/index';
 import Upload from './upload/index';
+import Dialog from './dialog/index';
+import Crop from './crop/index';
 
 const components = [
   Grid,
-  Upload
+  Upload,
+  Dialog,
+  Crop
 ]
 
 const install = components.map(component=>{

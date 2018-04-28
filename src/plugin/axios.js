@@ -37,11 +37,14 @@ instance.interceptors.response.use(
           deleteTokenFromLocalStroage();
           router.replace({
             path: '/',
-            query: {redirect: router.currentRoute.fullPath}
+            query: { redirect: router.currentRoute.fullPath }
           })
           break;  
         default:
-          
+          router.replace({
+            path: '/error',
+            query: { redirect: router.currentRoute.fullPath }
+          })
           break;
       }
     }

@@ -23,18 +23,10 @@ import api from '../../../plugin/axios';
         type: Boolean,
         default: false
       },
-      beforeAdd: {
-        type: Function,
-      },
-      beforeUpload: {
-        type: Function,
-      },
-      afterUpload: {
-        type: Function,
-      },
-      uploadError: {
-        type: Function,
-      },
+      beforeAdd: Function,
+      beforeUpload: Function,
+      afterUpload: Function,
+      uploadError: Function,
       meta: {
         type: Object,
         default: function(){
@@ -77,7 +69,7 @@ import api from '../../../plugin/axios';
           return this.uploadError()
         }
         postFiles.forEach(file=>{
-          this.upload(file);
+          if(this.autoUpload) this.upload(file);
         })
       },
       upload(file){
