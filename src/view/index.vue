@@ -39,3 +39,9 @@ import { mapState } from "vuex";
     }
   }
 </script>
+
+<style lang="scss">
+  .container{
+    margin-top: 70px;
+  }
+</style>

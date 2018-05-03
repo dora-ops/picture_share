@@ -36,7 +36,7 @@ instance.interceptors.response.use(
           store.commit('LOGIN_OUT');
           deleteTokenFromLocalStroage();
           router.replace({
-            path: '/',
+            path: '/login',
             query: { redirect: router.currentRoute.fullPath }
           })
           break;  
