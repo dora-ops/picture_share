@@ -42,10 +42,9 @@ export default {
   .router-link-active{
     background: #5db0c6;
   }
-  
   .menu-container{
     display: flex;
-    position: fixed;
+    position: relative;
     top: 0;
     left: 0;
     right: 0;

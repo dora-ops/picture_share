@@ -1,9 +1,7 @@
 <template>
   <div id="app">
     <min-menu v-if="isAuth"></min-menu>
-    <div class="app-content">
-      <router-view></router-view>
-    </div>
+    <router-view></router-view>
   </div>
 </template>
 
@@ -26,7 +24,7 @@ export default {
 </script>
 
 <style lang="scss">
-  .app-content{
-    margin-top: 73px;
+  #app{
+    min-width: 1000px;
   }
 </style>

@@ -3,3 +3,9 @@
     color: $value;
   }
 }
+
+@each $prop, $value in $iconColor{
+  .icon-#{$prop}{
+    color: $value
+  }
+}

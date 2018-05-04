@@ -1,15 +1,19 @@
 <template>
   <mi-grid :cols="['1fr']" :rows="['auto']" justifyContent="center">
-    fdsfsd
+    <min-jumbotron></min-jumbotron>
   </mi-grid> 
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import api from '../plugin/axios';
+import jumbotron from '../components/jumbotron';
 
 export default {
   name: 'user',
+  components: {
+    'min-jumbotron': jumbotron
+  },
   data() {
     return {
       coverPic: '',
@@ -27,9 +31,14 @@ export default {
       userDesc: state => state.user.userDesc
     }),
   },
+  watch: {
+    '$route'(to, from, next){
+      console.log(to);
+    }
+  },
   methods: {
-    async getUserInfo() {
-      const data = await api.getUserinfo({ id: this.userId });
+    async getUserInfo(id) {
+      const data = await api.getUserinfo({ id });
       const {
         data: { data: { userName, userInfo: { desc, avatar, coverPic } } }
       } = data;
@@ -37,7 +46,8 @@ export default {
     },
   },
   created() {
-    this.getUserInfo();
+    const { params: { id } } = this.$route;
+    this.getUserInfo(id);
   }
 };
 </script>
