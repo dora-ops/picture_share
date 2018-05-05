@@ -1,6 +1,7 @@
 <template>
   <mi-grid :cols="['1fr']" :rows="['auto']" justifyContent="center">
     <min-jumbotron></min-jumbotron>
+    <min-pinboard></min-pinboard>
   </mi-grid> 
 </template>
 
@@ -8,11 +9,13 @@
 import { mapState } from 'vuex';
 import api from '../plugin/axios';
 import jumbotron from '../components/jumbotron';
+import pinboard from '../components/pinboard';
 
 export default {
   name: 'user',
   components: {
-    'min-jumbotron': jumbotron
+    'min-jumbotron': jumbotron,
+    'min-pinboard': pinboard
   },
   data() {
     return {

@@ -1,7 +1,7 @@
 <template>
   <section class="jumbotron-container">
     <div class="jumbotron-coverimage">
-      <img src="../assets/1.jpeg" alt="">
+      <img src="" alt="">
     </div>
     <aside class="jumbotron-slide">
       <div class="jumbotron-slide-avatar">
@@ -13,8 +13,8 @@
       </div>
       <div class="jumbotron-slide-detail">
         <div class="detail-total">
-          <span class="material-icons icon-yellow">lightbulb_outline</span>
-          <span>{{lightTotal}}</span>
+          <span class="material-icons icon-red">favorite</span>
+          <span>{{heatTotal}}</span>
         </div>
         <span class="material-icons detail-total" v-if="isUser">mail_outline</span>
       </div>
@@ -41,9 +41,9 @@
 import { mapState } from 'vuex';
 
 export default {
-  name: 'min-jumbotron',
+  name: 'MinJumbotron',
   props: {
-    lightTotal: {
+    heatTotal: {
       type: Number,
       default: 0,
     },
@@ -77,7 +77,7 @@ export default {
 <style lang="scss">
   .jumbotron-container{
     width: 100%;
-    height: 320px;
+    height: 400px;
     position: relative;
   }
   .jumbotron-coverimage{

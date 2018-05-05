@@ -57,11 +57,9 @@ export default {
   }
   .menu-logo{
     display: flex;
-    justify-content: center;
     width: 200px;
     line-height: 73px;
     color: #484e4f;
-    font-family: -apple-system,SF UI Text,Arial,PingFang SC,Hiragino Sans GB,Microsoft YaHei,WenQuanYi Micro Hei,sans-serif;
     & &-font{
       font-size: 36px;
       line-height: 73px;
