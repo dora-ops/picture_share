@@ -3,6 +3,7 @@ const User = {
     userToken: null,
     userId: null,
     userName: null,
+    userAvatar: null
   },
   getters: {
     isAuth(state){
@@ -13,11 +14,14 @@ const User = {
     LOGIN_IN(state, user){
       state.userToken = user.token;
       state.userId = user.id;
-      state.userName = user.userName;
     },
     LOGIN_OUT(state){
       state.userToken = null;
     },
+    SET_USERINFO(state, user){
+      state.userName = user.userName;
+      state.userAvatar = user.avatar;
+    }
   }
 }
 

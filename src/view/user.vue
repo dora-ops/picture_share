@@ -19,10 +19,7 @@ export default {
   },
   data() {
     return {
-      coverPic: '',
-      avatarData: '',
-      dialogVisible: false,
-      width: 160
+      
     };
   },
   computed: {
@@ -30,8 +27,6 @@ export default {
       userId: state => state.user.userId,
       userName: state => state.user.userName,
       userAvatar: state => state.user.userAvatar,
-      userCoverPic: state => state.user.userCoverPic,
-      userDesc: state => state.user.userDesc
     }),
   },
   watch: {
@@ -45,7 +40,7 @@ export default {
       const {
         data: { data: { userName, userInfo: { desc, avatar, coverPic } } }
       } = data;
-      this.$store.commit('SET_USERINFO', { userName, desc, avatar, coverPic });
+      //this.$store.commit('SET_USERINFO', { userName, desc, avatar, coverPic });
     },
   },
   created() {

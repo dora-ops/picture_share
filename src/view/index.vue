@@ -24,11 +24,11 @@ import { mapState } from "vuex";
         const { data: {
            data: { 
              userName, 
-             userInfo: { desc, avatar, coverPic}
+             userInfo: { avatar }
             }
           }
         } = data;
-        this.$store.commit('SET_USERINFO', {userName, desc, avatar, coverPic})
+        this.$store.commit('SET_USERINFO', {userName, avatar});
       },
       routeUserHome(){
         this.$router.push({name: 'user', params: { 'id': this.userId }});
