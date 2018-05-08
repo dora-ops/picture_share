@@ -1,6 +1,6 @@
 export const getUserFromLocalStroage = () => {
   const token = localStorage.getItem('token');
-  const id = localStorage.getItem('id');  
+  const id = Number(localStorage.getItem('id'));  
   return token ? { token, id } : undefined;
 }
 

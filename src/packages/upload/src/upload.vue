@@ -19,25 +19,14 @@ import api from '../../../plugin/axios';
         type: String,
         default: 'image/*'
       },
-      autoUpload: {
-        type: Boolean,
-        default: false
-      },
-      beforeAdd: Function,
-      beforeUpload: Function,
-      afterUpload: Function,
-      uploadError: Function,
       meta: {
         type: Object,
         default: function(){
           return {};
         }
       },
-    },
-    data(){
-      return{
-        fileList: []
-      }
+      beforeUpload: Function,
+      afterUpload: Function
     },
     methods: {
       handleClick(){
@@ -48,67 +37,57 @@ import api from '../../../plugin/axios';
         const files = this.$refs.input.files;
         this.uploadFile(files);
       },
-      addFile(files){
-        if(!this.beforeAdd){
-          return Array.from(files);
-        }
-        for(let file of files){
-          let allowed = this.beforeAdd(file, files);
-          if(!allowed) { 
-            console.error('add file is error');
-            return false
-          };
-          this.fileList.push(file);
-        }
-        return Array.from(this.fileList);
-      },
       uploadFile(files){
-        this.clearFileList()
-        let postFiles = this.addFile(files);
-        if(!postFiles) {
-          return this.uploadError()
-        }
-        postFiles.forEach(file=>{
-          if(this.autoUpload) this.upload(file);
-        })
-      },
-      upload(file){
-        if(!this.beforeUpload) {
-          return this.post(file);
-        };
-        const before = this.beforeUpload(file);
-        if(before){
-          this.post(file);
-        }else{
-          console.error('before upload is error');
-          return this.uploadError();
-        }
-      },
-      createBase64(file){
-        return new Promise((resolve, reject) => {
-          const reader = new FileReader();
-          reader.readAsDataURL(file);
-          reader.onload = function(e){
-            resolve(e.target.result);
+        const handleFiles = Array.from(files);
+        const postFiles = this.multiple ? handleFiles : handleFiles.slice(0, 1);
+        if(this.beforeUpload){
+          const before = this.beforeUpload(postFiles);
+          if(before){
+            postFiles.forEach(file => {
+              this.post(file);
+            })
+          return ;
+          }else{
+            throw new Error(' beforeUpload is error');
           }
-        })
+        }
+        postFiles.forEach(file => {
+          this.post(file);
+        }) 
       },
       async post(file){
-        const base64Data = await this.createBase64(file)
         try {
-          const data = await api.postUpload({base64Data, meta: this.meta});
+          const base64Data = await this.createWebpImage(file);
+          const data = await api.postUpload({ base64Data, meta: this.meta }); 
           if(this.afterUpload) this.afterUpload(data);
         } catch (error) {
           console.log(error);
-        } 
+        }
       },
-      clearFileList(){
-        this.fileList = [];
+      async createWebpImage(file){
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const img = await this.createImage(file);
+        canvas.width = img.width;
+        canvas.height = img.height;
+        ctx.drawImage(img, 0, 0);
+        return canvas.toDataURL('image/webp');
+      },
+      createImage(file){
+        return new Promise((resolve, reject) => {
+          const fileRead = new FileReader();
+          const img = new Image();
+          img.onload = function(){
+            resolve(img);
+          }
+          fileRead.readAsDataURL(file);
+          fileRead.onload = function(e){
+            img.src = e.target.result;
+          }
+        })
       }
     }
   }
 </script>
 
-<style lang="scss">
-  
-</style>
+

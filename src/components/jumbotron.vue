@@ -1,7 +1,7 @@
 <template>
   <section class="jumbotron-container">
     <div class="jumbotron-coverimage">
-      <img src="" alt="">
+      <img :src="user.coverPic" alt="">
     </div>
     <aside class="jumbotron-slide">
       <div class="jumbotron-slide-avatar">
@@ -9,68 +9,71 @@
       </div>
       <div class="jumbotron-slide-text">
         <h3>{{userName}}</h3>
-        <p>一句话介绍自己</p>
+        <p>{{user.desc}}</p>
       </div>
       <div class="jumbotron-slide-detail">
         <div class="detail-total">
           <span class="material-icons icon-red">favorite</span>
-          <span>{{heatTotal}}</span>
+          <span>{{user.likeTotal}}</span>
         </div>
-        <span class="material-icons detail-total" v-if="isUser">mail_outline</span>
+        <div class="detail-total">
+          <span class="material-icons icon-red">people</span>
+          <span>{{user.concernTotal}}</span>
+        </div>
+        <span class="material-icons detail-total" v-if="!isUser">mail_outline</span>
       </div>
       <ul class="jumbotron-slide-toolbar">
         <li>
           <span href="#" class="material-icons">photo_library</span>
-          <span>{{photoTotal}}</span>
+          <span>{{user.photoTotal}}</span>
         </li>
         <li>
           <span href="#" class="material-icons">library_music</span>
-          <span>{{musicTotal}}</span>
+          <span>{{user.musicTotal}}</span>
         </li>
         <li>
           <span href="#" class="material-icons">video_library</span>
-          <span>{{videoTotal}}</span>
+          <span>{{user.videoTotal}}</span>
         </li>
       </ul>
-      <button class="btn jumbotron-slide-edit">编辑封面图</button>
+      <mi-upload v-if="isUser" :meta="{ type: 'coverPic', userId: userId }" :afterUpload="handleUpload">
+        <button class="btn jumbotron-slide-edit">编辑封面图</button>
+      </mi-upload>
+      <button class="btn jumbotron-slide-edit" v-else>关注他</button>
     </aside>
   </section>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import api  from '../plugin/axios';
 
 export default {
   name: 'MinJumbotron',
   props: {
-    heatTotal: {
-      type: Number,
-      default: 0,
+    user: {
+      type: Object,
+      default(){
+        return {}
+      }
     },
-    photoTotal: {
-      type: Number,
-      default: 0
-    },
-    musicTotal: {
-      type: Number,
-      default: 0
-    },
-    videoTotal: {
-      type: Number,
-      default: 0
-    },
-    isUser: {
-      type: Boolean,
-      default: false
-    }
   },
   computed: {
     ...mapState({
+      userId: state => state.user.userId,
       userAvatar: state => state.user.userAvatar,
       userName: state => state.user.userName,
-      userDesc: state => state.user.userDesc
-    })
+    }),
+    isUser(){
+      return this.userId === this.user.userId;
+    }
   },
+  methods: {
+    handleUpload(data){
+      const { data: { data: { imageSrc } } } = data;
+      this.user.coverPic = imageSrc; 
+    },
+  }
 }
 </script>
 

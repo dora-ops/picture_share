@@ -1,6 +1,6 @@
 <template>
   <mi-grid :cols="['1fr']" :rows="['auto']" justifyContent="center">
-    <min-jumbotron></min-jumbotron>
+    <min-jumbotron :user="userInfo"></min-jumbotron>
     <min-pinboard></min-pinboard>
   </mi-grid> 
 </template>
@@ -19,7 +19,7 @@ export default {
   },
   data() {
     return {
-      
+      userInfo: {}
     };
   },
   computed: {
@@ -31,21 +31,21 @@ export default {
   },
   watch: {
     '$route'(to, from, next){
-      console.log(to);
+      const { params: { id } } = to;
+      this.getUserHomeData(id);
     }
   },
   methods: {
-    async getUserInfo(id) {
-      const data = await api.getUserinfo({ id });
-      const {
-        data: { data: { userName, userInfo: { desc, avatar, coverPic } } }
-      } = data;
-      //this.$store.commit('SET_USERINFO', { userName, desc, avatar, coverPic });
-    },
+    async getUserHomeData(id){
+      const data = await api.getUserhome({ id });
+      const { data: { data: { userName, userInfo } } } = data;
+      this.userInfo = userInfo;
+      this.$store.commit('SET_USERINFO', { userName, avatar: userInfo.avatar});
+    }
   },
   created() {
     const { params: { id } } = this.$route;
-    this.getUserInfo(id);
+    this.getUserHomeData(id);
   }
 };
 </script>
