@@ -2,6 +2,7 @@
   <mi-grid :cols="['1fr']" :rows="['auto']" justifyContent="center">
     <min-jumbotron :user="userInfo"></min-jumbotron>
     <min-pinboard></min-pinboard>
+    <router-view></router-view>
   </mi-grid> 
 </template>
 

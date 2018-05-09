@@ -57,34 +57,20 @@ import api from '../../../plugin/axios';
       },
       async post(file){
         try {
-          const base64Data = await this.createWebpImage(file);
-          const data = await api.postUpload({ base64Data, meta: this.meta }); 
+          const formData = this.createFormData(file, this.meta);
+          const data = await api.postUpload(formData);
           if(this.afterUpload) this.afterUpload(data);
         } catch (error) {
           console.log(error);
         }
       },
-      async createWebpImage(file){
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        const img = await this.createImage(file);
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-        return canvas.toDataURL('image/webp');
-      },
-      createImage(file){
-        return new Promise((resolve, reject) => {
-          const fileRead = new FileReader();
-          const img = new Image();
-          img.onload = function(){
-            resolve(img);
-          }
-          fileRead.readAsDataURL(file);
-          fileRead.onload = function(e){
-            img.src = e.target.result;
-          }
+      createFormData(file, meta){
+        const formData = new FormData();
+        Object.keys(meta).forEach(key => {
+          formData.append(key, meta[key]);
         })
+        formData.append('file', file);
+        return formData;
       }
     }
   }

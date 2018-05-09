@@ -3,6 +3,7 @@ import Login from '@/view/login.vue'
 import Register from '@/view/register.vue'
 import error from '@/layout/error.vue'
 import User from '@/view/user.vue'
+import Profile from '@/view/profile.vue';
 
 const routes = [
   {
@@ -19,7 +20,18 @@ const routes = [
     meta: {
       isAuth: true
     },
-    component: User
+    component: User,
+    children: [
+      {
+        path: '',
+        
+      },
+      {
+        path: 'profile',
+        name: 'profile',
+        component: Profile
+      }
+    ]
   },
   {
     path: '/error',

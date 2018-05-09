@@ -6,7 +6,6 @@ import router from '../route/index';
 const config = {
   baseURL: 'http://localhost:1234',
   timeout: 5000,
-  responseType: 'json',
 }
 
 const instance = axios.create(config);
@@ -59,12 +58,12 @@ const api = new Proxy({}, {
                  .replace(/([A-Z])/g, '/$1')
                  .replace(/(\$)([a-z]+)/g, '?$2=')
                  .toLocaleLowerCase();
-    return function(data = {}){
+    return function(data = {}, headers = {}){
       if(method === 'get'){
         const params = data;
         return instance({method, url, params});
       }else if(method === 'post'){
-        return instance({method, url, data});
+        return instance({method, url, data, headers});
       }
     } 
   }
