@@ -1,53 +1,13 @@
 <template>
   <mi-grid :cols="['1fr']" :rows="['auto']" justifyContent="center">
-    <min-jumbotron :user="userInfo"></min-jumbotron>
-    <min-pinboard></min-pinboard>
     <router-view></router-view>
   </mi-grid> 
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import api from '../plugin/axios';
-import jumbotron from '../components/jumbotron';
-import pinboard from '../components/pinboard';
 
 export default {
   name: 'user',
-  components: {
-    'min-jumbotron': jumbotron,
-    'min-pinboard': pinboard
-  },
-  data() {
-    return {
-      userInfo: {}
-    };
-  },
-  computed: {
-    ...mapState({
-      userId: state => state.user.userId,
-      userName: state => state.user.userName,
-      userAvatar: state => state.user.userAvatar,
-    }),
-  },
-  watch: {
-    '$route'(to, from, next){
-      const { params: { id } } = to;
-      this.getUserHomeData(id);
-    }
-  },
-  methods: {
-    async getUserHomeData(id){
-      const data = await api.getUserhome({ id });
-      const { data: { data: { userName, userInfo } } } = data;
-      this.userInfo = userInfo;
-      this.$store.commit('SET_USERINFO', { userName, avatar: userInfo.avatar});
-    }
-  },
-  created() {
-    const { params: { id } } = this.$route;
-    this.getUserHomeData(id);
-  }
 };
 </script>
 

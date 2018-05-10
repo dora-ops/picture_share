@@ -10,8 +10,13 @@
       <router-link to="/notifications" exact>消息</router-link>
     </nav>
     <div class="menu-user">
-      <div class="menu-user-avatar" @click="routeUserHome">
+      <div class="menu-user-avatar" @mouseover="open = true" @mouseleave="open = false">
         <img :src="userAvatar" alt="">
+        <ul class="menu-user-nav" :class="{'open': open}">
+          <router-link :to="{name: 'home', params: { id: userId }}" tag="li">我的主页</router-link>
+          <router-link :to="{name: 'profile'}" tag="li">我的设置</router-link>
+          <li>登出</li>
+        </ul>
       </div>
       <div class="menu-user-add material-icons">add_circle_outline</div>
     </div>
@@ -23,6 +28,12 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'MinMenu',
+  data(){
+    return{
+      open: false,
+      routes: ['home', 'profile']
+    }
+  },
   computed: {
     ...mapState({
       userAvatar: state => state.user.userAvatar,
@@ -31,7 +42,10 @@ export default {
   },
   methods: {
     routeUserHome(){
-      this.$router.push({name: 'user', params: { id: this.userId }});
+      this.$router.push({name: 'home', params: { id: this.userId }});
+    },
+    routeProfile(){
+      this.$router.push({ name: 'profile'});
     }
   }  
 }
@@ -39,6 +53,9 @@ export default {
 </script>
 
 <style lang="scss">
+  .open{
+    display: block !important;
+  }
   .router-link-active{
     background: #5db0c6;
   }
@@ -88,12 +105,32 @@ export default {
       padding: 0 15px;
       line-height: 73px;
       cursor: pointer;
+      position: relative;
       & img{
         display: block;
         width: 30px;
         height: 30px;
         margin: 20px 0;
         border-radius: 50%;
+      }
+    }
+    & &-nav{
+      position: absolute;
+      width: 120px;
+      top: 73px;
+      right: 15px;
+      display: none;
+      z-index: 800;
+      & li{
+        padding: 0 15px;
+        height: 35px;
+        line-height: 35px;
+        background: #ffffff;
+        font-size: 14px;
+        color: #484e4f;
+        &:hover{
+          color: #f4876d; 
+        }
       }
     }
     & &-add{

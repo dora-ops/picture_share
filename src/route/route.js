@@ -4,6 +4,7 @@ import Register from '@/view/register.vue'
 import error from '@/layout/error.vue'
 import User from '@/view/user.vue'
 import Profile from '@/view/profile.vue';
+import Home from '@/view/home.vue';
 
 const routes = [
   {
@@ -13,22 +14,30 @@ const routes = [
       isAuth: true
     },
     component: Index,
-  },
-  {
-    path: '/user/:id',
-    name: 'user',
-    meta: {
-      isAuth: true
-    },
-    component: User,
     children: [
       {
-        path: '',
-        
+        path: 'user/:id',
+        meta: {
+          isAuth: true
+        },
+        component: User,
+        children: [
+          {
+            path: '',
+            name: 'home',
+            meta: {
+              isAuth: true
+            },
+            component: Home
+          },
+        ]
       },
       {
         path: 'profile',
         name: 'profile',
+        meta: {
+          isAuth: true
+        },
         component: Profile
       }
     ]

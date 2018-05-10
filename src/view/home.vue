@@ -8,6 +8,7 @@
 <script>
 import jumbotron from '../components/jumbotron';
 import pinboard from '../components/pinboard';
+import api from '../plugin/axios';
 import { mapState } from 'vuex';
 
 export default {

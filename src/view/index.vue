@@ -1,17 +1,20 @@
 <template>
   <div class="container">
-    <p>{{this.userName}}</p>
-    <span @click="routeUserHome">个人主页</span>
+    <min-menu></min-menu>
     <router-view></router-view>
   </div>
 </template>
 
 <script>
+import menu from '../components/menu';
 import api from '../plugin/axios';
 import { mapState } from "vuex";
 
   export default {
     name: 'index',
+    components: {
+      'min-menu': menu
+    },
     computed: {
       ...mapState({
         userId: state => state.user.userId,
@@ -31,7 +34,7 @@ import { mapState } from "vuex";
         this.$store.commit('SET_USERINFO', {userName, avatar});
       },
       routeUserHome(){
-        this.$router.push({name: 'user', params: { 'id': this.userId }});
+        this.$router.push({name: 'home', params: { 'id': this.userId }});
       }
     },
     created(){
@@ -41,7 +44,5 @@ import { mapState } from "vuex";
 </script>
 
 <style lang="scss">
-  .container{
-    margin-top: 70px;
-  }
+  
 </style>

@@ -71,7 +71,6 @@ export default {
   methods: {
     handleUpload(data){
       const { data: { data: { imageSrc } }} = data;
-      console.log(imageSrc);
       this.user.coverPic = imageSrc; 
     },
   }
