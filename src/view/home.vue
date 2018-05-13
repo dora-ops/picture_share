@@ -25,16 +25,13 @@ export default {
   computed: {
     ...mapState({
       userId: state => state.user.userId,
-      userName: state => state.user.userName,
-      userAvatar: state => state.user.userAvatar
     })
   },
   methods: {
     async getUserHomeData(id){
-      const data = await api.getUserhome({ id });
-      const { data: { data: { userName, userInfo } } } = data;
+      const data = await api.getUserhome({ params: { id } } );
+      const {data: { data: userInfo } } =data;
       this.userInfo = userInfo;
-      this.$store.commit('SET_USERINFO', { userName, avatar: userInfo.avatar});
     }
   },
   created() {

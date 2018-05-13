@@ -1,9 +1,13 @@
 // 对齐变量
 $items: ('start': start, 'end': end, 'center': center, 'strtch': stretch);
 $contents: ('start': start, 'end': end, 'center': center, 'strtch': stretch, 'sapce-around': space-around, 'sapce-between': space-between, 'space-evenly': space-evenly); 
+
 // 颜色
+$bodyColor: #edeff0;
 $circleColor: ('red': #e66e4c, 'orange': #f3844d, 'blue': #239fdb, 'green': #24c4bc);
 $iconColor: ('red': #e64c65);
-$bodyColor: #edeff0;
-
+$messageType: ('info', 'warning', 'success', 'error', 'default');
+$messageBg: ('info': #d1ecf1, 'warning': #fff3cd, 'error': #f8d7da, 'success': #d4edda, 'default': #e2e3e5);
+$messageBorder: ('info': #bee5eb, 'warning': #ffeeba, 'error': #f5c6cb, 'success': #c3e6cb, 'default': #d6d8db);
+$messageColor: ('info': #0c5460, 'warning': #856404, 'error': #721c24, 'success': #155724, 'default': #383d41);
 

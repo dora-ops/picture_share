@@ -4,18 +4,19 @@
     <div class="profile-content">
       <div class="profile-user">
         <label for="username">昵称</label>
-        <input class="profile-input" type="text" v-model="userName" name="username">
+        <input class="profile-input" type="text" v-model="userProfile.userName" name="username">
         <label for="userdesc">简介</label>
-        <input class="profile-input" type="text" v-model="userDesc" name="userdesc">
-        <button class="btn profile-btn">保存</button>
+        <input class="profile-input" type="text" v-model="userProfile.desc" name="userdesc">
+        <button class="btn profile-btn" @click="handleSave">保存</button>
       </div>
       <div class="profile-avatar">
         <div class="profile-avatar-img">
-          <img :src="userAvatar" alt="">
+          <img :src="userProfile.avatar" alt="">
         </div>
         <mi-upload :meta="{ type: 'avatar', userId: userId}" :afterUpload="handleUpload">
           <button class="btn">更换图像</button>
         </mi-upload>
+        <button class="btn" @click="handleClick">消息通知</button>
       </div>
     </div>
   </section>  
@@ -29,9 +30,11 @@ export default {
   name: 'profile',
   data(){
     return {
-      userName: '',
-      userDesc: '',
-      userAvatar: ''
+      userProfile: {
+        userName: '',
+        avatar: '',
+        desc: '',
+      }
     }
   },
   computed: {
@@ -41,19 +44,29 @@ export default {
   },
   methods: {
     async getUserProfile(id){
-      const data = await api.getUserProfile({ id });
-      const { data: { data: { 
-        userName, 
-        userInfo: { desc, avatar } 
-      } } } = data;
-
-      this.userName = userName;
-      this.userDesc = desc;
-      this.userAvatar = avatar;
+      const data = await api.getUserProfile({params: { id }});
+      const { data: { data: userProfile } } = data;
+      this.userProfile = userProfile;
     },
     handleUpload(data){
-      const { data: { data: { imageSrc } }} = data;
-      this.userAvatar = imageSrc;
+      const { data: { data: dataSrc }} = data;
+      this.userProfile.avatar = dataSrc;
+    },
+    async handleSave(){
+      const data = await api.postUserinfo({ 
+        data: { userProfile: this.userProfile, id: this.userId },
+        params: { id: this.userId }
+      });
+      console.log(data);
+    },
+    handleClick(){
+      this.$message({
+        message: '保存成功',
+        type: 'success',
+        center: true,
+        enterClass: 'in',
+        leaveClass: 'in',
+      });
     }
   },
   created(){

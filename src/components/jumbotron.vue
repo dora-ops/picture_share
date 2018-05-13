@@ -5,10 +5,10 @@
     </div>
     <aside class="jumbotron-slide">
       <div class="jumbotron-slide-avatar">
-        <img :src="userAvatar" alt="">
+        <img :src="user.avatar" alt="">
       </div>
       <div class="jumbotron-slide-text">
-        <h3>{{userName}}</h3>
+        <h3>{{user.userName}}</h3>
         <p>{{user.desc}}</p>
       </div>
       <div class="jumbotron-slide-detail">

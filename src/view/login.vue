@@ -1,8 +1,8 @@
 <template>
   <div class="login-container">
     <form class="login-form" @submit.prevent="onLogin">
-      <h4 class="login-title">爱吃</h4>
-      <p class="login-desc">分享各地的美食</p>
+      <h4 class="login-title">极简</h4>
+      <p class="login-desc">记录生活的美好</p>
       <p class="login-error" v-show="valid">{{errorMsg}}</p>
       <input class="login-input" type="email" placeholder="邮箱" v-model="userEmail">
       <input class="login-input" type="password" placeholder="密码" v-model="userPassword">
@@ -54,7 +54,7 @@ import { setTokenToLocalStroage } from '../util/auth';
       },
       async postLogin(userInfo){
         try {
-          const isLogin = await api.postLogin(userInfo);
+          const isLogin = await api.postLogin({data: userInfo});
           const { data } = isLogin;
           if(data.code === 200){
             // 获取令牌

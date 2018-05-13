@@ -56,14 +56,14 @@ const api = new Proxy({}, {
     const url = value
                  .substr(method.length)
                  .replace(/([A-Z])/g, '/$1')
-                 .replace(/(\$)([a-z]+)/g, '?$2=')
                  .toLocaleLowerCase();
-    return function(data = {}, headers = {}){
+    return function(option = {}){
       if(method === 'get'){
-        const params = data;
+        const { params } = option;
         return instance({method, url, params});
       }else if(method === 'post'){
-        return instance({method, url, data, headers});
+        const { params, data } = option;
+        return instance({method, url, data, params});
       }
     } 
   }

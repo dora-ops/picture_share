@@ -1,0 +1,21 @@
+@mixin message-type($type){
+  background-color: map-get($map: $messageBg, $key: $type);
+  border-color: map-get($map: $messageBorder, $key: $type);
+  color: map-get($map: $messageColor, $key: $type);
+}
+
+.mi-message{
+  width: 400px;
+  padding: 8px 15px;
+  position: fixed;
+  top: 15px;
+  left: calc(50% - 200px);
+  color: red;
+  z-index: 9999;
+}
+
+@each $type in $messageType{
+  .mi-message-#{$type}{
+    @include message-type($type);
+  }
+}

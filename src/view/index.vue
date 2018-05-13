@@ -23,14 +23,8 @@ import { mapState } from "vuex";
     },
     methods: {
       async getUserInfo(){
-        const data = await api.getUserinfo({id: this.userId});
-        const { data: {
-           data: { 
-             userName, 
-             userInfo: { avatar }
-            }
-          }
-        } = data;
+        const data = await api.getUserinfo({ params: {id: this.userId }});
+        const { data: { data: { userName, avatar } } } = data;
         this.$store.commit('SET_USERINFO', {userName, avatar});
       },
       routeUserHome(){

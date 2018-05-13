@@ -19,6 +19,9 @@ import api from '../../../plugin/axios';
         type: String,
         default: 'image/*'
       },
+      type: {
+        type: String,
+      },
       meta: {
         type: Object,
         default: function(){
@@ -58,7 +61,7 @@ import api from '../../../plugin/axios';
       async post(file){
         try {
           const formData = this.createFormData(file, this.meta);
-          const data = await api.postUpload(formData);
+          const data = await api.postUpload({ data: formData, params: { type: this.meta.type}});
           if(this.afterUpload) this.afterUpload(data);
         } catch (error) {
           console.log(error);

@@ -56,7 +56,7 @@ import api from '../plugin/axios';
       async uniqueEmail(){
         try {
           const { userEmail, userName, userPassword} = this.$data;
-          const data = await api.getRegisterUnique({'email': userEmail});
+          const data = await api.getRegisterUnique({params: { email: userEmail }});
           const { data: { code, message } } = data;  
           if(code !== 200){
             this.errorMsg = message
@@ -68,7 +68,7 @@ import api from '../plugin/axios';
         } 
       },
       async postUser(data){
-        const isRegister = await api.postRegister(data);
+        const isRegister = await api.postRegister({data});
         const { data: { code } } = isRegister;
         code === 200 ? this.$router.push({name: 'login'}) : this.$router.push({name: 'index'});
       },
