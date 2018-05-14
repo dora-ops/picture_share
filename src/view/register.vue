@@ -53,24 +53,34 @@ import api from '../plugin/axios';
 
         return this.errorMsg ? false : true;
       },
+      // 验证密码唯一性
       async uniqueEmail(){
         try {
           const { userEmail, userName, userPassword} = this.$data;
           const data = await api.getRegisterUnique({params: { email: userEmail }});
-          const { data: { code, message } } = data;  
-          if(code !== 200){
-            this.errorMsg = message
-            return;   
+          const { data: { status, message } } = data;  
+          if(code === 466){
+            return this.errorMsg = message;   
           }
           await this.postUser({ userEmail, userName, userPassword});
         } catch (error) {
-          this.$router.push({name: 'error'});
+          console.log(error);
         } 
       },
+      // 注册用户
       async postUser(data){
         const isRegister = await api.postRegister({data});
-        const { data: { code } } = isRegister;
-        code === 200 ? this.$router.push({name: 'login'}) : this.$router.push({name: 'index'});
+        const { data: { status, message } } = isRegister;
+        if(status === 466){
+          this.$mesage({
+            message: 'message',
+            type: 'error',
+            center: true,
+            enterClass: 'in'
+          })
+          return;
+        }
+        this.$router.push({ name: 'login' });
       },
       onRegister(){
         const { userEmail, userName, userPassword } = this.$data;

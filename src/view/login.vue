@@ -55,8 +55,8 @@ import { setTokenToLocalStroage } from '../util/auth';
       async postLogin(userInfo){
         try {
           const isLogin = await api.postLogin({data: userInfo});
-          const { data } = isLogin;
-          if(data.code === 200){
+          const { data: { status } } = isLogin;
+          if(status === 200){
             // 获取令牌
             const { data: { token, id }} = data;
             // 设置token
@@ -71,7 +71,6 @@ import { setTokenToLocalStroage } from '../util/auth';
           }
         } catch (error) {
           console.log(error);
-          this.$router.push({name: 'error'});
         }
       },
       onLogin(){

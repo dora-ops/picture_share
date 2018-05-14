@@ -38,7 +38,13 @@ instance.interceptors.response.use(
             path: '/login',
             query: { redirect: router.currentRoute.fullPath }
           })
-          break;  
+          break;
+        case 404:
+          router.replace({
+            path: '/error',
+            query: { reirect: router.currentRoute.fullPath }
+          })
+        break;  
         default:
           router.replace({
             path: '/error',

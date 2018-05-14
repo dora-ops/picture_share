@@ -22,6 +22,12 @@ export default {
       userInfo: {}
     }
   },
+  watch:{
+    '$route'(to, from, next){
+      const { id } = to.params;
+      this.getUserHomeData(id);
+    }
+  },
   computed: {
     ...mapState({
       userId: state => state.user.userId,
