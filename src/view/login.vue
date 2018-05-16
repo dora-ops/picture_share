@@ -53,25 +53,18 @@ import { setTokenToLocalStroage } from '../util/auth';
         return this.errorMsg ? false : true;
       },
       async postLogin(userInfo){
-        try {
-          const isLogin = await api.postLogin({data: userInfo});
-          const { data: { status } } = isLogin;
-          if(status === 200){
-            // 获取令牌
-            const { data: { token, id }} = data;
-            // 设置token
-            setTokenToLocalStroage(token, id)
-            // vuex设置user状态 
-            this.$store.commit('LOGIN_IN', {token, id});
-            // 跳转主页
-            this.$router.push({name: 'index'})
-          }else{
-            this.errorMsg = data.message;
-            return;
-          }
-        } catch (error) {
-          console.log(error);
+        const isLogin = await api.postLogin({data: userInfo});
+        const { data: { status, data: { token, id }} } = isLogin;
+        if( status === 466){
+          this.errorMsg = data.message;
+          return;
         }
+        // 设置token
+        setTokenToLocalStroage(token, id)
+        // vuex设置user状态 
+        this.$store.commit('LOGIN_IN', {token, id});
+        // 跳转主页
+        this.$router.push({name: 'index'})
       },
       onLogin(){
         const { userEmail, userPassword } = this.$data;

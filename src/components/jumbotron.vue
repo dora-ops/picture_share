@@ -16,10 +16,6 @@
           <span class="material-icons icon-red">favorite</span>
           <span>{{user.likeTotal}}</span>
         </div>
-        <div class="detail-total">
-          <span class="material-icons icon-red">people</span>
-          <span>{{user.concernTotal}}</span>
-        </div>
         <span class="material-icons detail-total" v-if="!isUser">mail_outline</span>
       </div>
       <ul class="jumbotron-slide-toolbar">

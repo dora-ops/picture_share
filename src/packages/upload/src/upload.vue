@@ -1,6 +1,6 @@
 <template>
   <div class="mi-upload" @click="handleClick">
-    <input type="file" class="mi-upload-input" ref="input" @change="handleChange" :accept="accept">
+    <input type="file" class="mi-upload-input" ref="input" @change="handleChange" :accept="accept" :multiple="multiple">
     <slot></slot>
   </div>
 </template>
@@ -10,6 +10,11 @@ import api from '../../../plugin/axios';
 
   export default {
     name: 'MiUpload',
+    data(){
+      return {
+        uploadFiles: []
+      }
+    },
     props: {
       multiple: {
         type: Boolean,
@@ -28,7 +33,6 @@ import api from '../../../plugin/axios';
           return {};
         }
       },
-      beforeUpload: Function,
       afterUpload: Function
     },
     methods: {
@@ -40,23 +44,11 @@ import api from '../../../plugin/axios';
         const files = this.$refs.input.files;
         this.uploadFile(files);
       },
-      uploadFile(files){
-        const handleFiles = Array.from(files);
-        const postFiles = this.multiple ? handleFiles : handleFiles.slice(0, 1);
-        if(this.beforeUpload){
-          const before = this.beforeUpload(postFiles);
-          if(before){
-            postFiles.forEach(file => {
-              this.post(file);
-            })
-          return ;
-          }else{
-            throw new Error(' beforeUpload is error');
-          }
-        }
-        postFiles.forEach(file => {
+      uploadFile(files){  
+        this.uploadFiles = this.multiple ? Array.from(files) : Array.from(files).slice(0, 1);
+        this.uploadFiles.forEach(file => {
           this.post(file);
-        }) 
+        })
       },
       async post(file){
         try {

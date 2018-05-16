@@ -55,17 +55,13 @@ import api from '../plugin/axios';
       },
       // 验证密码唯一性
       async uniqueEmail(){
-        try {
-          const { userEmail, userName, userPassword} = this.$data;
-          const data = await api.getRegisterUnique({params: { email: userEmail }});
-          const { data: { status, message } } = data;  
-          if(code === 466){
-            return this.errorMsg = message;   
-          }
-          await this.postUser({ userEmail, userName, userPassword});
-        } catch (error) {
-          console.log(error);
-        } 
+        const { userEmail, userName, userPassword} = this.$data;
+        const data = await api.getRegisterUnique({params: { email: userEmail }});
+        const { data: { status, message } } = data;  
+        if(status === 466){
+          return this.errorMsg = message;   
+        }
+        await this.postUser({ userEmail, userName, userPassword}); 
       },
       // 注册用户
       async postUser(data){

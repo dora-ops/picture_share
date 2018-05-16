@@ -1,0 +1,47 @@
+.mi-dialog-container{
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 9999;
+}
+.mi-modal{
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.5);
+}
+.mi-dialog-main{
+  width: 400px;
+  height: auto;
+  max-height: 100vh;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #ffffff;
+  text-align: center;
+}
+.mi-dialog-header{
+  width: 100%;
+  padding: 5px 0;
+  height: 35px;
+  line-height: 35px;
+  position: relative;
+}
+.mi-dialog-close{
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: #d3d3d3;
+  background: transparent;
+  border: none;
+  outline: none;
+  cursor: pointer;
+}
+.mi-dialog-body{
+  margin-top: 30px;
+}

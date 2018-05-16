@@ -16,7 +16,6 @@
         <mi-upload :meta="{ type: 'avatar', userId: userId}" :afterUpload="handleUpload">
           <button class="btn">更换图像</button>
         </mi-upload>
-        <button class="btn" @click="handleClick">消息通知</button>
       </div>
     </div>
   </section>  
@@ -57,17 +56,16 @@ export default {
         data: { userProfile: this.userProfile, id: this.userId },
         params: { id: this.userId }
       });
-      console.log(data);
+      if(data.status === 200){
+        this.$message({
+          message: '保存成功',
+          type: 'success',
+          center: true,
+          activeClass: 'enter-active',
+          enterToClass: 'enter-to'
+        });
+      }
     },
-    handleClick(){
-      this.$message({
-        message: '保存成功',
-        type: 'success',
-        center: true,
-        enterClass: 'in',
-        leaveClass: 'in',
-      });
-    }
   },
   created(){
     this.getUserProfile(this.userId);

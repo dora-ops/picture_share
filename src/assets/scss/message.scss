@@ -12,6 +12,7 @@
   left: calc(50% - 200px);
   color: red;
   z-index: 9999;
+  transition:  all 0.5s;
 }
 
 @each $type in $messageType{

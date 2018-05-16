@@ -1,5 +1,5 @@
 <template>
-  <transition name=custame :enter-to-class="enterClass">
+  <transition :enter-class="enterClass" :enter-active-class="activeClass" :enter-to-class="enterToClass">
     <div class="mi-message" v-show="visible" :class="[`mi-message-${typeClass}`]" :style="[textCenter]">
       <p class="mi-message-text">{{message}}</p>
     </div>
@@ -21,11 +21,12 @@
         message: '',
         visible: false,
         type: 'default',
-        duration: 3000,
+        duration: 1000,
         timer: null,
         center: false,
-        enterClass: '',
-        leaveClass: ''
+        enterClass: 'enter',
+        activeClass: 'enter-active',
+        enterToClass: 'enter-to'
       }
     },
     computed: {

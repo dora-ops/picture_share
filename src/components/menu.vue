@@ -15,16 +15,17 @@
         <ul class="menu-user-nav" :class="{'open': open}">
           <router-link :to="{name: 'home', params: { id: userId }}" tag="li">我的主页</router-link>
           <router-link :to="{name: 'profile'}" tag="li">我的设置</router-link>
-          <li>登出</li>
+          <li @click="loginOut">登出</li>
         </ul>
       </div>
-      <div class="menu-user-add material-icons">add_circle_outline</div>
+      <div class="menu-user-add material-icons" @click="openDialog">add_circle_outline</div>
     </div>
   </header>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import { deleteTokenFromLocalStroage } from '../util/auth.js';
 
 export default {
   name: 'MinMenu',
@@ -46,6 +47,14 @@ export default {
     },
     routeProfile(){
       this.$router.push({ name: 'profile'});
+    },
+    loginOut(){
+      this.$store.commit('LOGIN_OUT');
+      deleteTokenFromLocalStroage();
+      this.$router.push({ name: 'login' });
+    },
+    openDialog(){
+      this.$store.commit('TOOGLE_DIALOG', true);
     }
   }  
 }
@@ -70,7 +79,7 @@ export default {
     padding: 0 30px; 
     background: #ffffff;
     border-bottom: 1px solid #eeeff2;
-    z-index: 9999;
+    z-index: 6666;
   }
   .menu-logo{
     display: flex;

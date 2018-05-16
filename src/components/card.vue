@@ -3,12 +3,15 @@
     <div class="card-head">
       <div class="card-head-detail" :class="{active: visible}">
         <span class="material-icons" :class="visible ? 'active' : 'icon-red'">favorite</span>
-        <span>{{heatTotal}}</span>
+        <span>{{pinboard.likeCount}}</span>
       </div>
       <div class="material-icons circle-green">panorama_fish_eye</div>
     </div>
+    <div class="card-main">
+      <img :src="pinboard.content" alt="">
+    </div>
     <div class="card-content" v-show="visible">
-      <p>sdsdsfdsfs</p>
+      <p>{{pinboard.desc}}</p>
     </div>
   </div>
 </template>
@@ -23,9 +26,11 @@ export default {
     }
   },
   props: {
-    heatTotal: {
-      type: Number,
-      default: 0
+    pinboard: {
+      type: Object,
+      default: function(){
+        return {}
+      }
     }
   },
 }
@@ -64,6 +69,14 @@ export default {
       &.active{
         color: #b8c3c8;
       }
+    }
+  }
+  .card-main{
+    width: 100%;
+    height: 100%;
+    & img{
+      width: 100%;
+      height: 100%;
     }
   }
   .card-content{

@@ -11,7 +11,7 @@
       </ul>
     </div>
     <div class="pinboard-main">
-      <min-card v-for="item in 5" :key="item"></min-card>
+      <min-card v-for="pinboard in pinboards" :key="pinboard.id" :pinboard="pinboard" class="pinboard-card"></min-card>
     </div>
   </section>
 </template>
@@ -21,6 +21,14 @@ import card from './card';
 
   export default {
     name: 'MinPinboard',
+    props: {
+      pinboards: {
+        type: Array,
+        default: function(){
+          return []
+        }
+      }
+    },
     components: {
       'min-card': card
     }
@@ -49,13 +57,14 @@ import card from './card';
   }
   .pinboard-main{
     display: flex;
-    justify-content: space-between;
     flex-wrap: wrap;
     margin-top: 30px;
     padding: 0 30px;
     width: 100%;
     height: auto;
   }
-
+  .pinboard-card{
+    margin-right: 15px;
+  }
 </style>
 
