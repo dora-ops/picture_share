@@ -10,7 +10,7 @@
         <button class="btn profile-btn" @click="handleSave">保存</button>
       </div>
       <div class="profile-avatar">
-        <div class="profile-avatar-img">
+        <div class="profile-avatar-img"> 
           <img :src="userProfile.avatar" alt="">
         </div>
         <mi-upload :meta="{ type: 'avatar', userId: userId}" :afterUpload="handleUpload">
@@ -33,7 +33,7 @@ export default {
         userName: '',
         avatar: '',
         desc: '',
-      }
+      },
     }
   },
   computed: {
@@ -49,7 +49,7 @@ export default {
     },
     handleUpload(data){
       const { data: { data: dataSrc }} = data;
-      this.userProfile.avatar = dataSrc;
+      this.userProfile.avatar = dataSrc[0];
     },
     async handleSave(){
       const data = await api.postUserinfo({ 
@@ -61,9 +61,8 @@ export default {
           message: '保存成功',
           type: 'success',
           center: true,
-          activeClass: 'enter-active',
-          enterToClass: 'enter-to'
         });
+        this.$store.commit('SET_USERINFO', this.userProfile);
       }
     },
   },

@@ -6,7 +6,7 @@
         <div class="dialog-left">
           <ul class="dialog-fileList">
             <li v-for="file in fileList" :key="file.id" class="dialog-upload" @click="changeFile(file.id)" :class="[ file.id === activeIndex ? 'active-file' : '']">
-              <img :src="file.src" alt="">
+              <img :src="file.resizeSrc" alt="">
             </li>
             <mi-upload class="dialog-upload" :meta="{type: 'file', userId: userId}" :afterUpload="handleUpload" :multiple="true">
               <div class="material-icons dialog-icon">add</div>
@@ -76,7 +76,8 @@ import { mapState } from "vuex";
         const { data: { data: dataSrc } } = data;
         const file = {};
         file.id = this.fileList.length + 1;
-        file.src = dataSrc;
+        file.resizeSrc = dataSrc.find(src => src.includes('resize'));
+        file.normalSrc = dataSrc.find(src => src.includes('normal'))
         file.desc = '';
         this.fileList.push(file);
       },
@@ -89,7 +90,8 @@ import { mapState } from "vuex";
         const promiseList = this.fileList.map( async file => {
           const data = await api.postReleasePhoto({
             data: { 
-              content: file.src,
+              content: file.normalSrc,
+              resizeContent: file.resizeSrc,
               desc: file.desc,
               userId: this.userId
             }

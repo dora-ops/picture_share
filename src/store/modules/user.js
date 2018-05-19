@@ -8,7 +8,7 @@ const User = {
   getters: {
     isAuth(state){
       return !!state.userToken;
-    },
+    }
   },
   mutations: {
     LOGIN_IN(state, user){

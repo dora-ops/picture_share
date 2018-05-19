@@ -58,13 +58,16 @@ import card from './card';
   .pinboard-main{
     display: flex;
     flex-wrap: wrap;
-    margin-top: 30px;
-    padding: 0 30px;
-    width: 100%;
+    max-width: 1290px;
+    padding: 0 15px;
     height: auto;
+    margin: 30px auto 0;
   }
   .pinboard-card{
-    margin-right: 15px;
+    margin-right: 20px;
+  }
+  .pinboard-card:nth-of-type(4n){
+    margin-right: 0;
   }
 </style>
 

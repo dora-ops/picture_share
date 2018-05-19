@@ -39,7 +39,7 @@ export default {
     ...mapState({
       userAvatar: state => state.user.userAvatar,
       userId: state => state.user.userId
-    })
+    }),
   },
   methods: {
     routeUserHome(){

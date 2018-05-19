@@ -8,7 +8,7 @@
       <div class="material-icons circle-green">panorama_fish_eye</div>
     </div>
     <div class="card-main">
-      <img :src="pinboard.content" alt="">
+      <img :src="pinboard.resizeContent" alt="">
     </div>
     <div class="card-content" v-show="visible">
       <p>{{pinboard.desc}}</p>
