@@ -20,7 +20,7 @@ const User = {
     },
     SET_USERINFO(state, user){
       state.userName = user.userName;
-      state.userAvatar = user.avatar;
+      state.userAvatar = user.userAvatar;
     }
   }
 }

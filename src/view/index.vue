@@ -64,13 +64,13 @@ import { mapState } from "vuex";
         const nextFile = this.fileList.find(file => file.id === val);
         prevFile.desc = this.desc;
         this.desc = nextFile.desc;
-      }
+      },
     },
     methods: {
       async getUserInfo(){
-        const data = await api.getUserinfo({ params: {id: this.userId }});
-        const { data: { data: { userName, avatar } } } = data;
-        this.$store.commit('SET_USERINFO', {userName, avatar});
+        const data = await api.getUserinfo({ params: { id: this.userId }});
+        const { data: { data: { userName, userAvatar } } } = data;
+        this.$store.commit('SET_USERINFO', { userName, userAvatar });
       },
       handleUpload(data){
         const { data: { data: dataSrc } } = data;

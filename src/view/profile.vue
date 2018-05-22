@@ -6,12 +6,12 @@
         <label for="username">昵称</label>
         <input class="profile-input" type="text" v-model="userProfile.userName" name="username">
         <label for="userdesc">简介</label>
-        <input class="profile-input" type="text" v-model="userProfile.desc" name="userdesc">
+        <input class="profile-input" type="text" v-model="userProfile.userDesc" name="userdesc">
         <button class="btn profile-btn" @click="handleSave">保存</button>
       </div>
       <div class="profile-avatar">
         <div class="profile-avatar-img"> 
-          <img :src="userProfile.avatar" alt="">
+          <img :src="userProfile.userAvatar" alt="">
         </div>
         <mi-upload :meta="{ type: 'avatar', userId: userId}" :afterUpload="handleUpload">
           <button class="btn">更换图像</button>
@@ -31,8 +31,8 @@ export default {
     return {
       userProfile: {
         userName: '',
-        avatar: '',
-        desc: '',
+        userAvatar: '',
+        userDesc: '',
       },
     }
   },
@@ -49,7 +49,7 @@ export default {
     },
     handleUpload(data){
       const { data: { data: dataSrc }} = data;
-      this.userProfile.avatar = dataSrc[0];
+      this.userProfile.userAvatar = dataSrc[0];
     },
     async handleSave(){
       const data = await api.postUserinfo({ 

@@ -37,9 +37,9 @@ export default {
   methods: {
     async getUserHomeData(id){
       const data = await api.getUserhome( { params: { id } } );
-      const { data: { data: { userInfo, pinboards } } } = data;
-      this.userInfo = userInfo;
-      this.pinboards = pinboards;
+      const { data: { data: userData } } = data;
+      this.userInfo = userData;
+      //this.pinboards = photoData;
     }
   },
   created() {

@@ -1,35 +1,31 @@
 <template>
   <section class="jumbotron-container">
     <div class="jumbotron-coverimage">
-      <img :src="user.coverPic" alt="">
+      <img :src="user.userBgimg" alt="">
     </div>
     <aside class="jumbotron-slide">
       <div class="jumbotron-slide-avatar">
-        <img :src="user.avatar" alt="">
+        <img :src="user.userAvatar" alt="">
       </div>
       <div class="jumbotron-slide-text">
         <h3>{{user.userName}}</h3>
-        <p>{{user.desc}}</p>
+        <p>{{user.userDesc}}</p>
       </div>
       <div class="jumbotron-slide-detail">
         <div class="detail-total">
           <span class="material-icons icon-red">favorite</span>
-          <span>{{user.likeTotal}}</span>
+          <span>{{user.userLikes}}</span>
         </div>
         <span class="material-icons detail-total" v-if="!isUser">mail_outline</span>
       </div>
       <ul class="jumbotron-slide-toolbar">
         <li>
           <span href="#" class="material-icons">photo_library</span>
-          <span>{{user.photoTotal}}</span>
+          <span>{{user.userPhotos}}</span>
         </li>
         <li>
           <span href="#" class="material-icons">library_music</span>
           <span>{{user.musicTotal}}</span>
-        </li>
-        <li>
-          <span href="#" class="material-icons">video_library</span>
-          <span>{{user.videoTotal}}</span>
         </li>
       </ul>
       <mi-upload v-if="isUser" :meta="{ type: 'coverPic', userId: userId }" :afterUpload="handleUpload">

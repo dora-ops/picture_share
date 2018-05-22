@@ -53,10 +53,10 @@ import { setTokenToLocalStroage } from '../util/auth';
         return this.errorMsg ? false : true;
       },
       async postLogin(userInfo){
-        const isLogin = await api.postLogin({data: userInfo});
-        const { data: { status, data: { token, id }} } = isLogin;
+        const loginData = await api.postLogin({ data: userInfo });
+        const { data: { status, message, data: { token, id } } } = loginData;
         if( status === 466){
-          this.errorMsg = data.message;
+          this.errorMsg = message;
           return;
         }
         // 设置token

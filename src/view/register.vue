@@ -55,7 +55,7 @@ import api from '../plugin/axios';
       },
       // 验证密码唯一性
       async uniqueEmail(){
-        const { userEmail, userName, userPassword} = this.$data;
+        const { userEmail, userName, userPassword } = this.$data;
         const data = await api.getRegisterUnique({params: { email: userEmail }});
         const { data: { status, message } } = data;  
         if(status === 466){
@@ -65,11 +65,11 @@ import api from '../plugin/axios';
       },
       // 注册用户
       async postUser(data){
-        const isRegister = await api.postRegister({data});
+        const isRegister = await api.postRegister({ data });
         const { data: { status, message } } = isRegister;
         if(status === 466){
           this.$mesage({
-            message: 'message',
+            message: message,
             type: 'error',
             center: true,
             enterClass: 'in'
