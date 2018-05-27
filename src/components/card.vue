@@ -1,22 +1,23 @@
 <template>
-  <div class="card-container" @mouseleave="visible = false" @mouseover="visible = true">
+  <div class="card-container" @mouseleave="visible = false" @mouseover="visible = true" @click="routeImageView">
     <div class="card-head">
       <div class="card-head-detail" :class="{active: visible}">
         <span class="material-icons" :class="visible ? 'active' : 'icon-red'">favorite</span>
-        <span>{{pinboard.likeCount}}</span>
+        <span>{{photo.photoLikes}}</span>
       </div>
-      <div class="material-icons circle-green">panorama_fish_eye</div>
+      <div class="material-icons" :class="[`circle-${photo.photoHeat}`]">panorama_fish_eye</div>
     </div>
     <div class="card-main">
-      <img :src="pinboard.resizeContent" alt="">
+      <img :src="photo.photoCover" alt="">
     </div>
     <div class="card-content" v-show="visible">
-      <p>{{pinboard.desc}}</p>
+      <p>{{photo.photoDesc}}</p>
     </div>
   </div>
 </template>
 
 <script>
+import { handleHeatGrade } from '../util/util.js';
 
 export default {
   name: 'MinCard',
@@ -26,13 +27,18 @@ export default {
     }
   },
   props: {
-    pinboard: {
+    photo: {
       type: Object,
       default: function(){
         return {}
       }
     }
   },
+  methods: {
+    routeImageView(){
+      this.$router.push({ name: 'imageView', params: { id: this.photo.id } })
+    }
+  }
 }
 
 </script>

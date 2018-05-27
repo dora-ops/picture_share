@@ -1,7 +1,7 @@
 <template>
   <section class="home-container">
     <min-jumbotron :user="userInfo"></min-jumbotron>
-    <min-pinboard :pinboards="pinboards"></min-pinboard>
+    <min-pinboard :photoData="photos"></min-pinboard>
   </section>
 </template>
 
@@ -20,7 +20,7 @@ export default {
   data(){
     return {
       userInfo: {},
-      pinboards: []
+      photos: []
     }
   },
   watch:{
@@ -37,9 +37,11 @@ export default {
   methods: {
     async getUserHomeData(id){
       const data = await api.getUserhome( { params: { id } } );
+      const photoData = await api.getUserPhoto( {params: { id } } );
       const { data: { data: userData } } = data;
+      const { data: { data: photos } } = photoData;
       this.userInfo = userData;
-      //this.pinboards = photoData;
+      this.photos = photos;
     }
   },
   created() {

@@ -1,5 +1,5 @@
 <template>
-  <div class="mi-dialog-container" v-show="visible">
+  <div class="mi-dialog-container" v-show="visible" @click.self="handleClose">
     <div v-if="modal" class="mi-modal" @click="handleClose"></div>
       <div class="mi-dialog-main" :class="customClass">
         <div class="mi-dialog-header">
@@ -31,11 +31,12 @@
       },
       customClass: {
         type: String
-      }
+      },
     },
     methods: {
       handleClose(){
         this.$emit('update:visible', false);
+        this.$emit('onClose');
       }
     },
   }

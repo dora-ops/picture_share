@@ -20,12 +20,12 @@
       </div>
       <ul class="jumbotron-slide-toolbar">
         <li>
-          <span href="#" class="material-icons">photo_library</span>
+          <span href="#" class="material-icons">photo</span>
           <span>{{user.userPhotos}}</span>
         </li>
         <li>
-          <span href="#" class="material-icons">library_music</span>
-          <span>{{user.musicTotal}}</span>
+          <span href="#" class="material-icons">whatshot</span>
+          <span>{{user.userConcerns}}</span>
         </li>
       </ul>
       <mi-upload v-if="isUser" :meta="{ type: 'coverPic', userId: userId }" :afterUpload="handleUpload">
@@ -62,9 +62,18 @@ export default {
   },
   methods: {
     handleUpload(data){
-      const { data: { data: { imageSrc } }} = data;
-      this.user.coverPic = imageSrc; 
+      const { data: { data: imageSrc }} = data;
+      this.user.userBgimg = imageSrc[0]; 
+      this.updateBgimg();
     },
+    async updateBgimg(){
+      const data = await api.postUserBgimg({ 
+        params: { id: this.userId }, 
+        data: { userBgimg: this.user.userBgimg } 
+      });
+      const { data: { message, status } } = data;
+      status === 466 ? this.$message({message, type: 'error'}) : this.$message({ message, type: 'success' }); 
+    }
   }
 }
 </script>
@@ -82,7 +91,7 @@ export default {
     right: 0;
     bottom: 0;
     & img{
-      min-width: 100%;
+      width: 100%;
       height: 400px;
       object-fit: cover;
     }

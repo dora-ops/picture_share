@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <min-menu></min-menu>
-    <mi-dialog :visible.sync="dialogVisible" customClass="index-dialog">
+    <mi-dialog :visible.sync="dialogVisible" customClass="index-dialog" @onClose="clearFileList">
       <div slot="body" class="dialog-body">
         <div class="dialog-left">
           <ul class="dialog-fileList">
@@ -15,9 +15,13 @@
         </div>
         <div class="dialog-right">
           <button class="btn dialog-btn" @click="releasePhoto">发布</button>
-          <div class="dialog-desc">
-            <label>作品描述</label>
-            <textarea v-model="desc"></textarea>
+          <div class="dialog-group">
+            <label class="dialog-label">作品标题</label>
+            <input class="dialog-input" type="text" v-model="photoTitle">
+          </div>
+          <div class="dialog-group">
+            <label class="dialog-label">作品描述</label>
+            <textarea class="dialog-input" v-model="photoDesc"></textarea>
           </div>
         </div>
       </div>
@@ -40,7 +44,8 @@ import { mapState } from "vuex";
       return{
         fileList: [],
         activeIndex: 1,
-        desc: '',
+        photoTitle: '',
+        photoDesc: '',
       }
     },
     computed: {
@@ -58,14 +63,6 @@ import { mapState } from "vuex";
         }
       },
     },
-    watch: {
-      activeIndex(val, oldVal){
-        const prevFile = this.fileList.find(file => file.id === oldVal);
-        const nextFile = this.fileList.find(file => file.id === val);
-        prevFile.desc = this.desc;
-        this.desc = nextFile.desc;
-      },
-    },
     methods: {
       async getUserInfo(){
         const data = await api.getUserinfo({ params: { id: this.userId }});
@@ -78,43 +75,35 @@ import { mapState } from "vuex";
         file.id = this.fileList.length + 1;
         file.resizeSrc = dataSrc.find(src => src.includes('resize'));
         file.normalSrc = dataSrc.find(src => src.includes('normal'))
-        file.desc = '';
+        file.photoDesc = '';
         this.fileList.push(file);
       },
       changeFile(id){
         this.activeIndex = id; 
       },
-      releasePhoto(){
-        const targetFile = this.fileList.find(file => file.id === this.activeIndex);
-        targetFile.desc = this.desc;
-        const promiseList = this.fileList.map( async file => {
-          const data = await api.postReleasePhoto({
-            data: { 
-              content: file.normalSrc,
-              resizeContent: file.resizeSrc,
-              desc: file.desc,
-              userId: this.userId
-            }
-          })
-          return data;
+      async releasePhoto(){
+        const photoCover = this.fileList.find(file => file.id === this.activeIndex);
+        const photoNormal = this.fileList.map( file => file.normalSrc);
+        const releaseData = await api.postRelease({
+          data: {
+            photoTitle: this.photoTitle,
+            photoAvatar: this.userName,
+            photoDesc: this.photoDesc,
+            photoNormal: photoNormal,
+            photoCover: photoCover.resizeSrc,
+            userId: this.userId
+          }
         })
-        for(let promise of promiseList){
-          promise.then((result) => {
-            const { data: { status, message } } = result;
-            if(status === 466){
-              this.$message({
-                message: message,
-                type: 'error',
-              })
-            }else{
-              this.$message({
-                message: message,
-                type: 'info'
-              })
-            }
-          })
+        const { data: { status, message } } = releaseData;
+        if(status === 466){
+          this.$message({ message, type: 'error', onClose: this.refreshRoute});
+        }else{
+          this.$message({ message, type: 'info', onClose: this.refreshRoute});
+          this.dialogVisible = false;
         }
-        this.fileList = [];
+      },
+      refreshRoute(){
+        this.$router.go(0);
       },
       clearFileList(){
         this.fileList = [];
@@ -135,7 +124,7 @@ import { mapState } from "vuex";
   }
   .index-dialog{
     width: 1000px;
-    height: 400px;
+    height: 500px;
     overflow-y: auto;
   }
   .dialog-body{
@@ -175,18 +164,24 @@ import { mapState } from "vuex";
     & .dialog-btn{
       width: 100%;
     }
-    & .dialog-desc{
-      margin-top: 30px;
-      & label{
+    & .dialog-group{
+      margin-top: 15px;
+      & .dialog-label{
         display: block;
         text-align: left;
-        margin-bottom: 15px;
+      }
+      & .dialog-input{
+        width: 100%;
+        margin-top: 15px;
       }
       & textarea{
-        width: 100%;
         min-height: 200px;
         resize: vertical;
         padding: 8px 8px;
+      }
+      & input{
+        line-height: 30px;
+        padding: 0 8px;
       }
     }
   }

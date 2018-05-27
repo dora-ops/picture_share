@@ -11,7 +11,7 @@
       </ul>
     </div>
     <div class="pinboard-main">
-      <min-card v-for="pinboard in pinboards" :key="pinboard.id" :pinboard="pinboard" class="pinboard-card"></min-card>
+      <min-card v-for="photo in photoData" :key="photo.id" :photo="photo" class="pinboard-card"></min-card>
     </div>
   </section>
 </template>
@@ -22,7 +22,7 @@ import card from './card';
   export default {
     name: 'MinPinboard',
     props: {
-      pinboards: {
+      photoData: {
         type: Array,
         default: function(){
           return []
@@ -31,6 +31,12 @@ import card from './card';
     },
     components: {
       'min-card': card
+    },
+    methods: {
+      routeImageView(id){
+        console.log(id);
+        this.$router.push({name: 'imageView', params: { id }});
+      }
     }
   }
 </script>

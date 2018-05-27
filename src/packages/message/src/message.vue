@@ -24,6 +24,7 @@
         duration: 1000,
         timer: null,
         center: false,
+        onClose: null,
         enterClass: 'enter',
         activeClass: 'enter-active',
         enterToClass: 'enter-to'
@@ -54,6 +55,7 @@
       startTimer(){
         this.timer = setTimeout(()=>{
           this.visible = false;
+          this.close();
           this.$el.addEventListener('transitionend', this.destroyMessage);
         }, this.duration);
       },
@@ -61,6 +63,11 @@
         this.$el.removeEventListener('transitionend', this.destroyMessage);
         document.body.removeChild(this.$el);
         this.$destroy(this.$el);
+      },
+      close(){
+        if(typeof this.onClose === 'function'){
+          this.onClose(this);
+        }
       }
     },
   }

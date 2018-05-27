@@ -22,7 +22,7 @@ import api from '../../../plugin/axios';
       },
       accept: {
         type: String,
-        default: 'image/*'
+        default: '.jpg, .jpeg'
       },
       type: {
         type: String,
@@ -53,7 +53,7 @@ import api from '../../../plugin/axios';
       async post(file){
         try {
           const formData = this.createFormData(file, this.meta);
-          const data = await api.postUpload({ data: formData, params: { type: this.meta.type}});
+          const data = await api.postUpload({ data: formData, params: { type: this.meta.type }});
           if(this.afterUpload) this.afterUpload(data);
         } catch (error) {
           console.log(error);

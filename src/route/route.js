@@ -5,6 +5,7 @@ import error from '@/layout/error.vue'
 import User from '@/view/user.vue'
 import Profile from '@/view/profile.vue';
 import Home from '@/view/home.vue';
+import ImageView from '@/view/imageView.vue';
 
 const routes = [
   {
@@ -17,20 +18,11 @@ const routes = [
     children: [
       {
         path: 'user/:id',
+        name: 'home',
         meta: {
           isAuth: true
         },
-        component: User,
-        children: [
-          {
-            path: '',
-            name: 'home',
-            meta: {
-              isAuth: true
-            },
-            component: Home
-          },
-        ]
+        component: Home,
       },
       {
         path: 'profile',
@@ -39,6 +31,14 @@ const routes = [
           isAuth: true
         },
         component: Profile
+      },
+      {
+        path: 'imageView/:id',
+        name: 'imageView',
+        meta: {
+          isAuth: true
+        },
+        component: ImageView
       }
     ]
   },
