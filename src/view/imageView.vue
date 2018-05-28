@@ -14,17 +14,17 @@
           <div class="imageView-avatar">
             <span class="avatar-img"><img :src="userInfo.userAvatar" alt=""></span>
             <span class="avatar-name">{{userInfo.userName}}</span>
-            <button class="btn">关注她</button>
+            <button class="btn" v-if="id === userId">关注她</button>
           </div>
           <div class="imageView-meta">
             <h3 class="imageView-info">{{photoInfo.photoTitle}}</h3>
-            <p class="imageView-info">{{photoInfo.createdAt}}</p>
+            <p class="imageView-info">发布于 {{time}} </p>
             <div class="imageView-info imageView-desc">
               <p>{{photoInfo.photoDesc}}</p>
             </div>
             <ul class="imageView-bar">
               <li class="imageView-baritem">
-                <span class="material-icons icon-default">favorite</span>
+                <span class="material-icons" :class="[praiseState === '0' ? 'icon-default' : 'icon-red']">favorite</span>
                 <span class="imageView-text">{{photoInfo.photoLikes}}</span>
               </li>
               <li class="imageView-baritem">
@@ -38,9 +38,9 @@
             </ul>
           </div>
           <div class="imageView-action">
-            <button class="btn">点赞支持</button>
-            <button class="btn">收藏作品</button>
-            <button class="btn">评价作品</button>
+            <button class="btn" @click="handlePraise">{{praiseText}}</button>
+            <button class="btn" @click="handleCollection">收藏作品</button>
+            <button class="btn" @click="handleMessage">发送消息</button>
           </div>
       </section>
     </section>
@@ -50,13 +50,32 @@
 <script>
 import api from '../plugin/axios.js';
 import User from '../store/modules/user.js';
+import { mapState } from 'vuex';
 
   export default {
     name: 'imageView',
     data(){
       return {
+        id: null,
         userInfo: {},
-        photoInfo: {}
+        photoInfo: {},
+        praiseState: '0',
+        collectionState: null
+      }
+    },
+    computed: {
+      ...mapState({
+        userId: state => state.user.userId
+      }),
+      time(){
+        let date = new Date(this.photoInfo.createdAt);
+        let year = date.getFullYear();
+        let month = date.getMonth() + 1;
+        let day = date.getDate();
+        return `${year}-${month}-${day}`;
+      },
+      praiseText(){
+        return this.praiseState === '0' ? '点赞支持' : '已点赞';
       }
     },
     methods: {
@@ -68,10 +87,38 @@ import User from '../store/modules/user.js';
         this.userInfo = userData;
         this.photoInfo = photoData;
         this.photoInfo.photoNormal = JSON.parse(photoData.photoNormal);
+        await this.getState();
+      },
+      async getState(){
+        const stateData = await api.getPraiseState({ params: { userId: this.userId, praisePhotoId: this.photoInfo.id } });
+        const { data: { data: state } } = stateData;
+        this.praiseState = state;
+      },
+      async handlePraise(){
+        const stateData = await api.postPraiseState({ data: {
+          praisePhotoId: this.photoInfo.id,
+          praiseFromId: this.userId,
+          praiseToId: this.userInfo.userId,
+          photoId: this.photoInfo.id,
+        }});
+        const { data: { data: state } } = stateData;
+        this.praiseState = state;
+        this.getPhotoInfo(this.id);
+      },
+      async handleCollection(){
+        const response = await api.postCollection({ data: {
+          collectionPhotoId: this.photoInfo.id,
+          collectionUserId: this.userId,
+          userId: this.userId,
+        }})
+      },
+      async handleMessage(){
+
       }
     },
     created(){
       const { params: { id } } = this.$route;
+      this.id = id;
       this.getPhotoInfo(id);
     }
   }
