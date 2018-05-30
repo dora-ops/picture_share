@@ -28,7 +28,7 @@
                 <span class="imageView-text">{{photoInfo.photoLikes}}</span>
               </li>
               <li class="imageView-baritem">
-                <span class="material-icons icon-default">star</span>
+                <span class="material-icons" :class="[collectionState === '0' ? 'icon-default' : 'icon-yellow']">star</span>
                 <span class="imageView-text">{{photoInfo.photoCollection}}</span>
               </li>
               <li class="imageView-baritem">
@@ -39,7 +39,7 @@
           </div>
           <div class="imageView-action">
             <button class="btn" @click="handlePraise">{{praiseText}}</button>
-            <button class="btn" @click="handleCollection">收藏作品</button>
+            <button class="btn" @click="handleCollection">{{collectionText}}</button>
             <button class="btn" @click="handleMessage">发送消息</button>
           </div>
       </section>
@@ -51,7 +51,10 @@
 import api from '../plugin/axios.js';
 import User from '../store/modules/user.js';
 import { mapState } from 'vuex';
-
+const state = {
+  success: '1',
+  error: '0'
+}
   export default {
     name: 'imageView',
     data(){
@@ -59,7 +62,7 @@ import { mapState } from 'vuex';
         id: null,
         userInfo: {},
         photoInfo: {},
-        praiseState: '0',
+        praiseState: null,
         collectionState: null
       }
     },
@@ -75,28 +78,28 @@ import { mapState } from 'vuex';
         return `${year}-${month}-${day}`;
       },
       praiseText(){
-        return this.praiseState === '0' ? '点赞支持' : '已点赞';
+        return this.praiseState === state.error ? '点赞支持' : '已点赞';
+      },
+      collectionText(){
+        return this.collectionState === state.error ? '收藏作品' : '已收藏';
       }
     },
     methods: {
       async getPhotoInfo(id){
-        const photoInfo = await api.getPhotoInfo({ params: { id } });
+        const photoInfo = await api.getPhotoInfo({ 
+          params: { photoId: id, userId: this.userId } 
+        });
         const { data: { data: { userId }, data: photoData } } = photoInfo;
         const userInfo = await api.getUserhome({ params: { id: userId }});
         const { data: { data: userData } } = userInfo; 
         this.userInfo = userData;
         this.photoInfo = photoData;
         this.photoInfo.photoNormal = JSON.parse(photoData.photoNormal);
-        await this.getState();
-      },
-      async getState(){
-        const stateData = await api.getPraiseState({ params: { userId: this.userId, praisePhotoId: this.photoInfo.id } });
-        const { data: { data: state } } = stateData;
-        this.praiseState = state;
+        this.praiseState = photoData.praiseState;
+        this.collectionState = photoData.collectionState;
       },
       async handlePraise(){
         const stateData = await api.postPraiseState({ data: {
-          praisePhotoId: this.photoInfo.id,
           praiseFromId: this.userId,
           praiseToId: this.userInfo.userId,
           photoId: this.photoInfo.id,
@@ -106,11 +109,14 @@ import { mapState } from 'vuex';
         this.getPhotoInfo(this.id);
       },
       async handleCollection(){
-        const response = await api.postCollection({ data: {
-          collectionPhotoId: this.photoInfo.id,
-          collectionUserId: this.userId,
-          userId: this.userId,
+        const stateData = await api.postCollectionState({ data: {
+          collectionFromId: this.userId,
+          collectionToId: this.userInfo.userId,
+          photoId: this.photoInfo.id,
         }})
+        const { data: { data: state } } = stateData;
+        this.collectionState = state;
+        this.getPhotoInfo(this.id);
       },
       async handleMessage(){
 

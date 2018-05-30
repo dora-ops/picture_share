@@ -24,8 +24,8 @@
           <span>{{user.userPhotos}}</span>
         </li>
         <li>
-          <span href="#" class="material-icons">whatshot</span>
-          <span>{{user.userConcerns}}</span>
+          <span href="#" class="material-icons">star</span>
+          <span>{{user.userCollection}}</span>
         </li>
       </ul>
       <mi-upload v-if="isUser" :meta="{ type: 'coverPic', userId: userId }" :afterUpload="handleUpload">
@@ -157,12 +157,16 @@ export default {
       margin-top: 30px;
       display: flex;
       justify-content: space-between;
+      align-items: center;
       & li{
         color: #dedddd;
         cursor: pointer;
-        & span{
-          display: inline-block;
-          vertical-align: middle;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & span:last-of-type{
+          margin-left: 5px;
+          font-size: 16px;
         }
       }
     }
