@@ -17,12 +17,19 @@ const routes = [
     component: Index,
     children: [
       {
-        path: 'user/:id',
-        name: 'home',
+        path: '/',
         meta: {
           isAuth: true
         },
-        component: Home,
+        component: Home
+      },
+      {
+        path: 'user/:id',
+        name: 'user',
+        meta: {
+          isAuth: true
+        },
+        component: User,
       },
       {
         path: 'profile',

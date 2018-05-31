@@ -13,18 +13,18 @@
       </div>
       <div class="jumbotron-slide-detail">
         <div class="detail-total">
-          <span class="material-icons icon-red">favorite</span>
+          <span class="icon-red"><i class="fas fa-heart"></i></span>
           <span>{{user.userLikes}}</span>
         </div>
-        <span class="material-icons detail-total" v-if="!isUser">mail_outline</span>
+        <span class="detail-total" v-if="!isUser"><i class="far fa-envelope"></i></span>
       </div>
       <ul class="jumbotron-slide-toolbar">
         <li>
-          <span href="#" class="material-icons">photo</span>
+          <span href="#"><i class="far fa-image"></i></span>
           <span>{{user.userPhotos}}</span>
         </li>
         <li>
-          <span href="#" class="material-icons">star</span>
+          <span href="#"><i class="fas fa-star"></i></span>
           <span>{{user.userCollection}}</span>
         </li>
       </ul>

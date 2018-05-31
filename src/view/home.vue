@@ -1,52 +1,26 @@
 <template>
-  <section class="home-container">
-    <min-jumbotron :user="userInfo"></min-jumbotron>
-    <min-pinboard :photoData="photos"></min-pinboard>
+  <section>
+    <p>dfsdfsd</p>
   </section>
 </template>
 
 <script>
-import jumbotron from '../components/jumbotron';
-import pinboard from '../components/pinboard';
-import api from '../plugin/axios';
-import { mapState } from 'vuex';
+import api from '../plugin/axios.js';
 
-export default {
-  name: 'home',
-  components: {
-    'min-jumbotron': jumbotron,
-    'min-pinboard': pinboard
-  },
-  data(){
-    return {
-      userInfo: {},
-      photos: []
+  export default {
+    name: 'home',
+    data(){
+      return {
+
+      }
+    },
+    methods: {
+      async getHomeCover(){
+        const data = await api.getHomeCover();
+      }
+    },
+    created(){
+      //this.getHomeCover();
     }
-  },
-  watch:{
-    '$route'(to, from, next){
-      const { id } = to.params;
-      this.getUserHomeData(id);
-    }
-  },
-  computed: {
-    ...mapState({
-      userId: state => state.user.userId,
-    })
-  },
-  methods: {
-    async getUserHomeData(id){
-      const data = await api.getUserhome( { params: { id } } );
-      const photoData = await api.getUserPhoto( {params: { id } } );
-      const { data: { data: userData } } = data;
-      const { data: { data: photos } } = photoData;
-      this.userInfo = userData;
-      this.photos = photos;
-    }
-  },
-  created() {
-    const { params: { id } } = this.$route;
-    this.getUserHomeData(id);
   }
-}
 </script>

@@ -2,10 +2,10 @@
   <div class="card-container" @mouseleave="visible = false" @mouseover="visible = true" @click="routeImageView">
     <div class="card-head">
       <div class="card-head-detail" :class="{active: visible}">
-        <span class="material-icons" :class="visible ? 'active' : 'icon-red'">favorite</span>
+        <span :class="visible ? 'active' : 'icon-red'"><i class="fas fa-heart"></i></span>
         <span>{{photo.photoLikes}}</span>
       </div>
-      <div class="material-icons" :class="[`circle-${photo.photoHeat}`]">panorama_fish_eye</div>
+      <div :class="[`circle-${photo.photoHeat}`]"><i class="far fa-circle"></i></div>
     </div>
     <div class="card-main">
       <img :src="photo.photoCover" alt="">

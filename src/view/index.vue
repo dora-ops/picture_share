@@ -1,7 +1,6 @@
 <template>
   <div class="container">
     <min-menu></min-menu>
-    
     <mi-dialog :visible.sync="dialogVisible" customClass="index-dialog" @onClose="clearFileList">
       <div slot="body" class="dialog-body">
         <div class="dialog-left">

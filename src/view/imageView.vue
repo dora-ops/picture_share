@@ -24,15 +24,21 @@
             </div>
             <ul class="imageView-bar">
               <li class="imageView-baritem">
-                <span class="material-icons" :class="[praiseState === '0' ? 'icon-default' : 'icon-red']">favorite</span>
+                <span :class="[praiseState === '0' ? 'icon-default' : 'icon-red']">
+                  <i class="fas fa-heart"></i>
+                </span>
                 <span class="imageView-text">{{photoInfo.photoLikes}}</span>
               </li>
               <li class="imageView-baritem">
-                <span class="material-icons" :class="[collectionState === '0' ? 'icon-default' : 'icon-yellow']">star</span>
+                <span :class="[collectionState === '0' ? 'icon-default' : 'icon-yellow']">
+                  <i class="fas fa-star"></i>
+                </span>
                 <span class="imageView-text">{{photoInfo.photoCollection}}</span>
               </li>
               <li class="imageView-baritem">
-                <span class="material-icons icon-default">remove_red_eye</span>
+                <span class="icon-default">
+                  <i class="far fa-eye"></i>
+                </span>
                 <span class="imageView-text">{{photoInfo.photoBrowse}}</span>
               </li>
             </ul>

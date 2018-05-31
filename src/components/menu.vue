@@ -1,7 +1,9 @@
 <template>
   <header class="menu-container">
     <div class="menu-logo">
-      <div class="menu-logo-font material-icons">photo_camera</div>
+      <div class="menu-logo-font">
+        <i class="fas fa-camera-retro"></i>
+      </div>
       <h3 class="menu-logo-text">极简</h3>
     </div>
     <nav class="menu-nav">
@@ -13,12 +15,12 @@
       <div class="menu-user-avatar" @mouseover="open = true" @mouseleave="open = false">
         <img :src="userAvatar" alt="">
         <ul class="menu-user-nav" :class="{'open': open}">
-          <router-link :to="{name: 'home', params: { id: userId }}" tag="li">我的主页</router-link>
+          <router-link :to="{name: 'user', params: { id: userId }}" tag="li">我的主页</router-link>
           <router-link :to="{name: 'profile'}" tag="li">我的设置</router-link>
           <li @click="loginOut">登出</li>
         </ul>
       </div>
-      <div class="menu-user-add material-icons" @click="openDialog">add_circle_outline</div>
+      <div class="menu-user-add material-icons" @click="openDialog"><i class="fas fa-plus-circle"></i></div>
     </div>
   </header>
 </template>
@@ -42,12 +44,6 @@ export default {
     }),
   },
   methods: {
-    routeUserHome(){
-      this.$router.push({name: 'home', params: { id: this.userId }});
-    },
-    routeProfile(){
-      this.$router.push({ name: 'profile'});
-    },
     loginOut(){
       this.$store.commit('LOGIN_OUT');
       deleteTokenFromLocalStroage();

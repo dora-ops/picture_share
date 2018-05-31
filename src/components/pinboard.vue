@@ -4,10 +4,10 @@
       <div class="pinboard-nav-text">作品集锦</div>
       <ul class="pinboard-nav-rank">
         <li>热度:</li>
-        <li class="material-icons circle-red">panorama_fish_eye</li>
-        <li class="material-icons circle-orange">panorama_fish_eye</li>
-        <li class="material-icons circle-blue">panorama_fish_eye</li>
-        <li class="material-icons circle-green">panorama_fish_eye</li>
+        <li class="circle-red"><i class="far fa-circle"></i></li>
+        <li class="circle-orange"><i class="far fa-circle"></i></li>
+        <li class="circle-blue"><i class="far fa-circle"></i></li>
+        <li class="circle-green"><i class="far fa-circle"></i></li>
       </ul>
     </div>
     <div class="pinboard-main">
