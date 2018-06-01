@@ -1,5 +1,5 @@
 <template>
-  <section class="home-container">
+  <section class="user-container">
     <min-jumbotron :user="userInfo"></min-jumbotron>
     <min-pinboard :photoData="photos"></min-pinboard>
   </section>

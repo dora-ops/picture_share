@@ -7,12 +7,13 @@ import store from './store';
 import './assets/scss/index.scss';
 import MiUI from './packages/index';
 import 'element-ui/lib/theme-chalk/index.css';
-import { Carousel, CarouselItem } from 'element-ui';
+import { Carousel, CarouselItem, Loading } from 'element-ui';
 
 Vue.config.productionTip = false
 Vue.use(MiUI);
 Vue.use(Carousel);
 Vue.use(CarouselItem);
+Vue.use(Loading);
 
 /* eslint-disable no-new */
 new Vue({

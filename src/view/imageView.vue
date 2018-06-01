@@ -77,7 +77,7 @@ const state = {
         userId: state => state.user.userId
       }),
       time(){
-        let date = new Date(this.photoInfo.createdAt);
+        let date = new Date(this.photoInfo.createdTime);
         let year = date.getFullYear();
         let month = date.getMonth() + 1;
         let day = date.getDate();

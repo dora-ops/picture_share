@@ -3,7 +3,9 @@
     <div v-if="modal" class="mi-modal" @click="handleClose"></div>
       <div class="mi-dialog-main" :class="customClass">
         <div class="mi-dialog-header">
-          <div class="material-icons mi-dialog-close" v-if="showClose" @click="handleClose">close</div>
+          <div class="mi-dialog-close" v-if="showClose" @click="handleClose">
+            <i class="fas fa-times"></i>
+          </div>
         </div>
         <div class="mi-dialog-body">
           <slot name="body"></slot>

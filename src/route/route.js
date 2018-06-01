@@ -10,14 +10,15 @@ import ImageView from '@/view/imageView.vue';
 const routes = [
   {
     path: '/',
-    name: 'index',
+    //name: 'index',
     meta: {
       isAuth: true
     },
     component: Index,
     children: [
       {
-        path: '/',
+        path: '',
+        name: 'home',
         meta: {
           isAuth: true
         },

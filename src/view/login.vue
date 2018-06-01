@@ -64,7 +64,7 @@ import { setTokenToLocalStroage } from '../util/auth';
         // vuex设置user状态 
         this.$store.commit('LOGIN_IN', {token, id});
         // 跳转主页
-        this.$router.push({name: 'index'})
+        this.$router.push({name: 'home'})
       },
       onLogin(){
         const { userEmail, userPassword } = this.$data;

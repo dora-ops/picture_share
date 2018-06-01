@@ -9,7 +9,9 @@
               <img :src="file.resizeSrc" alt="">
             </li>
             <mi-upload class="dialog-upload" :meta="{type: 'file', userId: userId}" :afterUpload="handleUpload" :multiple="true">
-              <div class="material-icons dialog-icon">add</div>
+              <div class="dialog-icon">
+                <i class="fas fa-plus"></i>
+              </div>
             </mi-upload>
           </ul>
         </div>

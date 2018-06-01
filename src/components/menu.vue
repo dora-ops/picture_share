@@ -7,7 +7,7 @@
       <h3 class="menu-logo-text">极简</h3>
     </div>
     <nav class="menu-nav">
-      <router-link to="/" exact>发现</router-link>
+      <router-link :to="{name: 'home'}" exact>发现</router-link>
       <router-link to="/subscriptions" exact>关注</router-link>
       <router-link to="/notifications" exact>消息</router-link>
     </nav>
