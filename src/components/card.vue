@@ -1,5 +1,5 @@
 <template>
-  <div class="card-container" @mouseleave="visible = false" @mouseover="visible = true" @click="routeImageView">
+  <div class="card-container" @mouseleave="visible = false" @mouseover="visible = true" @click="routeImageView" v-lazy-container="{ selector: 'img'}">
     <div class="card-head">
       <div class="card-head-detail" :class="{active: visible}">
         <span :class="visible ? 'active' : 'icon-red'"><i class="fas fa-heart"></i></span>
@@ -8,7 +8,7 @@
       <div :class="[`circle-${photo.photoHeat}`]"><i class="far fa-circle"></i></div>
     </div>
     <div class="card-main">
-      <img :src="photo.photoCover" alt="">
+      <img :data-src="photo.photoCover" alt="">
     </div>
     <div class="card-content" v-show="visible">
       <p>{{photo.photoDesc}}</p>

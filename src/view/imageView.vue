@@ -14,7 +14,7 @@
           <div class="imageView-avatar">
             <span class="avatar-img"><img :src="userInfo.userAvatar" alt=""></span>
             <span class="avatar-name">{{userInfo.userName}}</span>
-            <button class="btn" v-if="id === userId">关注她</button>
+            <button class="btn" v-if="userInfo.userId !== userId">关注她</button>
           </div>
           <div class="imageView-meta">
             <h3 class="imageView-info">{{photoInfo.photoTitle}}</h3>
@@ -110,9 +110,9 @@ const state = {
           praiseToId: this.userInfo.userId,
           photoId: this.photoInfo.id,
         }});
-        const { data: { data: state } } = stateData;
-        this.praiseState = state;
-        this.getPhotoInfo(this.id);
+        const { data: { data: praiseState } } = stateData;
+        this.praiseState = praiseState;
+        praiseState === state.error ? this.photoInfo.photoLikes -= 1 : this.photoInfo.photoLikes += 1; 
       },
       async handleCollection(){
         const stateData = await api.postCollectionState({ data: {
@@ -120,9 +120,9 @@ const state = {
           collectionToId: this.userInfo.userId,
           photoId: this.photoInfo.id,
         }})
-        const { data: { data: state } } = stateData;
-        this.collectionState = state;
-        this.getPhotoInfo(this.id);
+        const { data: { data: collectionState } } = stateData;
+        this.collectionState = collectionState;
+        collectionState === state.error ? this.photoInfo.photoCollection -= 1 : this.photoInfo.photoCollection += 1; 
       },
       async handleMessage(){
 

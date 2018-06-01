@@ -11,7 +11,7 @@
       </ul>
     </div>
     <div class="pinboard-main">
-      <min-card v-for="photo in photoData" :key="photo.id" :photo="photo" class="pinboard-card"></min-card>
+      <min-card v-for="photo in photoData" :key="photo.id" :photo="photo" class="pinboard-card"  ></min-card>
     </div>
   </section>
 </template>
