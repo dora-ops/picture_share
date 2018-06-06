@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import validators from '../plugin/valid';
-import api from '../plugin/axios';
+import validators from '../../plugin/valid';
+import api from '../../plugin/axios';
 
   export default {
     name: 'register',

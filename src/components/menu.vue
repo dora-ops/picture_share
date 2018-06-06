@@ -8,8 +8,8 @@
     </div>
     <nav class="menu-nav">
       <router-link :to="{name: 'home'}" exact>发现</router-link>
-      <router-link to="/subscriptions" exact>关注</router-link>
-      <router-link to="/notifications" exact>消息</router-link>
+      <router-link :to="{name: 'concern'}" exact>关注</router-link>
+      <router-link :to="{name: 'message'}" exact>消息</router-link>
     </nav>
     <div class="menu-user">
       <div class="menu-user-avatar" @mouseover="open = true" @mouseleave="open = false">
@@ -34,7 +34,6 @@ export default {
   data(){
     return{
       open: false,
-      routes: ['home', 'profile']
     }
   },
   computed: {
@@ -66,7 +65,7 @@ export default {
   }
   .menu-container{
     display: flex;
-    position: relative;
+    position: fixed;
     top: 0;
     left: 0;
     right: 0;
@@ -75,7 +74,7 @@ export default {
     padding: 0 30px; 
     background: #ffffff;
     border-bottom: 1px solid #eeeff2;
-    z-index: 6666;
+    z-index: 2000;
   }
   .menu-logo{
     display: flex;

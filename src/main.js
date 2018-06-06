@@ -8,13 +8,15 @@ import './assets/scss/index.scss';
 import MiUI from './packages/index';
 import VueLazyload from 'vue-lazyload';
 import 'element-ui/lib/theme-chalk/index.css';
-import { Carousel, CarouselItem } from 'element-ui';
+import { Carousel, CarouselItem, Upload, Dialog} from 'element-ui';
 
 Vue.config.productionTip = false
 Vue.use(MiUI);
 Vue.use(Carousel);
 Vue.use(CarouselItem);
+Vue.use(Upload);
 Vue.use(VueLazyload);
+Vue.use(Dialog);
 
 /* eslint-disable no-new */
 new Vue({

@@ -1,16 +1,18 @@
-import Index from '@/view/index.vue'
-import Login from '@/view/login.vue'
-import Register from '@/view/register.vue'
-import error from '@/layout/error.vue'
-import User from '@/view/user.vue'
-import Profile from '@/view/profile.vue';
-import Home from '@/view/home.vue';
-import ImageView from '@/view/imageView.vue';
+const Login = r => require.ensure([], () => r(require('@/view/login/login')), 'login');
+const Register = r => require.ensure([], () => r(require('@/view/register/register')), 'register');
+const Index = r => require.ensure([], () => r(require('@/view/index/index')), 'index'); 
+const Home = r => require.ensure([], () => r(require('@/view/home/home')), 'home');
+const ImageView = r => require.ensure([], () => r(require('@/view/imageView/imageView')), 'imageView');
+const Error404 = r => require.ensure([], () => r(require('@/view/error/404')), 'error');
+const Profile = r => require.ensure([], () => r(require('@/view/profile/profile')), 'profile');
+const User = r => require.ensure([], () => r(require('@/view/user/user')), 'user');
+const Concern =  r => require.ensure([], () => r(require('@/view/concern/concern')), 'concern');
+const Message = r => require.ensure([], () => r(require('@/view/message/message')), 'message');
+const PhotoList =  r => require.ensure([], () => r(require('@/view/concern/children/photoList')), 'photolist');
 
 const routes = [
   {
     path: '/',
-    //name: 'index',
     meta: {
       isAuth: true
     },
@@ -47,13 +49,39 @@ const routes = [
           isAuth: true
         },
         component: ImageView
+      },
+      {
+        path: 'concern',
+        name: 'concern',
+        meta: {
+          isAuth: true
+        },
+        component: Concern,
+        children: [
+          {
+            path: ':id',
+            name: 'photolist',
+            meta: {
+              isAuth: true
+            },
+            component: PhotoList
+          }
+        ]
+      },
+      {
+        path: 'message',
+        name: 'message',
+        meta: {
+          isAuth: true
+        },
+        component: Message
       }
     ]
   },
   {
     path: '/error',
     name: 'error',
-    component: error 
+    component: Error404 
   },
   {
     path: '/login',

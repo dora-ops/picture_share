@@ -23,7 +23,7 @@
 
 <script>
 import { mapState }from 'vuex';
-import api from '../plugin/axios';
+import api from '../../plugin/axios';
 
 export default {
   name: 'profile',

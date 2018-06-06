@@ -11,10 +11,9 @@
         </el-carousel>
       </section>
       <section class="imageView-right">
-          <div class="imageView-avatar">
+          <div class="imageView-avatar" @click="routeHome">
             <span class="avatar-img"><img :src="userInfo.userAvatar" alt=""></span>
             <span class="avatar-name">{{userInfo.userName}}</span>
-            <button class="btn" v-if="userInfo.userId !== userId">关注她</button>
           </div>
           <div class="imageView-meta">
             <h3 class="imageView-info">{{photoInfo.photoTitle}}</h3>
@@ -54,8 +53,8 @@
 </template>
 
 <script>
-import api from '../plugin/axios.js';
-import User from '../store/modules/user.js';
+import api from '../../plugin/axios.js';
+import User from '../../store/modules/user.js';
 import { mapState } from 'vuex';
 const state = {
   success: '1',
@@ -70,6 +69,12 @@ const state = {
         photoInfo: {},
         praiseState: null,
         collectionState: null
+      }
+    },
+    watch: {
+      '$route'(to, from){
+        const { params: { id } } = to;
+        this.getPhotoInfo(id);
       }
     },
     computed: {
@@ -126,6 +131,9 @@ const state = {
       },
       async handleMessage(){
 
+      },
+      routeHome(){
+        this.$router.push({ name: 'user', params: { id: this.userInfo.id }});
       }
     },
     created(){
@@ -174,6 +182,7 @@ const state = {
   .imageView-avatar{
     padding-bottom: 15px;
     border-bottom: 1px solid #eeeff2;
+    cursor: pointer;
     & span {
       display: inline-block;
       vertical-align: middle;

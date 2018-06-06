@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import api from '../plugin/axios';
-import validators from '../plugin/valid';
-import { setTokenToLocalStroage } from '../util/auth';
+import api from '../../plugin/axios';
+import validators from '../../plugin/valid';
+import { setTokenToLocalStroage } from '../../util/auth';
 
   export default {
     name: 'Login',
@@ -54,11 +54,12 @@ import { setTokenToLocalStroage } from '../util/auth';
       },
       async postLogin(userInfo){
         const loginData = await api.postLogin({ data: userInfo });
-        const { data: { status, message, data: { token, id } } } = loginData;
+        const { data: { status, message } } = loginData;
         if( status === 466){
           this.errorMsg = message;
           return;
         }
+        const { data: { data: { token, id } } } = loginData;
         // 设置token
         setTokenToLocalStroage(token, id)
         // vuex设置user状态 

@@ -29,8 +29,8 @@
 </template>
 
 <script>
-import api from '../plugin/axios.js';
-import pinboard from '../components/pinboard';
+import api from '../../plugin/axios.js';
+import pinboard from '../../components/pinboard';
 
   export default {
     name: 'home',
@@ -76,7 +76,6 @@ import pinboard from '../components/pinboard';
       infiniteLoad(){
         this.intersection = new IntersectionObserver((entries)=>{
           if(entries[0].isIntersecting){
-            console.log(1)
             this.getAllPhoto()
           }
         }, {

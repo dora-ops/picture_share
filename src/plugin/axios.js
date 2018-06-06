@@ -4,7 +4,7 @@ import store from '../store/index';
 import router from '../route/index';
 
 const config = {
-  baseURL: 'http://localhost:1234',
+  baseURL: process.env.API_ROOT,
   timeout: 5000,
 }
 

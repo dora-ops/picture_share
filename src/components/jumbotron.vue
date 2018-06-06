@@ -28,10 +28,14 @@
           <span>{{user.userCollection}}</span>
         </li>
       </ul>
-      <mi-upload v-if="isUser" :meta="{ type: 'coverPic', userId: userId }" :afterUpload="handleUpload">
+      <el-upload v-if="isUser"
+      ref='upload' action="http://139.199.230.46:3000/upload" :data="{type: 'coverPic', userId: userId}" :headers="{Authorization:`Bearer ${userToken}`}" accept=".jpg, .jpeg" :on-success="handleResponse" :show-file-list="false">
         <button class="btn jumbotron-slide-edit">编辑封面图</button>
-      </mi-upload>
-      <button class="btn jumbotron-slide-edit" v-else>关注他</button>
+      </el-upload>
+     <!-- <mi-upload v-if="isUser" :meta="{ type: 'coverPic', userId: userId }" :afterUpload="handleUpload">
+        <button class="btn jumbotron-slide-edit">编辑封面图</button>
+      </mi-upload>-->
+      <button class="btn jumbotron-slide-edit" @click="changeConcern" v-else>{{concernText}}</button>
     </aside>
   </section>
 </template>
@@ -39,6 +43,10 @@
 <script>
 import { mapState } from 'vuex';
 import api  from '../plugin/axios';
+const state = {
+  scuess: '1',
+  error: '0'
+}
 
 export default {
   name: 'MinJumbotron',
@@ -49,30 +57,36 @@ export default {
         return {}
       }
     },
+    concernText: {
+      type: String,
+    }
   },
   computed: {
     ...mapState({
+      userToken: state => state.user.userToken,
       userId: state => state.user.userId,
       userAvatar: state => state.user.userAvatar,
       userName: state => state.user.userName,
     }),
     isUser(){
       return this.userId === this.user.userId;
-    }
+    },
   },
   methods: {
-    handleUpload(data){
-      const { data: { data: imageSrc }} = data;
-      this.user.userBgimg = imageSrc[0]; 
-      this.updateBgimg();
+    handleResponse(data){
+      const { data: dataSrc } = data; 
+      this.updateBgimg(dataSrc[0]);
     },
-    async updateBgimg(){
+    async updateBgimg(bgImg){
       const data = await api.postUserBgimg({ 
         params: { id: this.userId }, 
-        data: { userBgimg: this.user.userBgimg } 
+        data: { userBgimg: bgImg } 
       });
       const { data: { message, status } } = data;
       status === 466 ? this.$message({message, type: 'error'}) : this.$message({ message, type: 'success' }); 
+    },
+    changeConcern(){
+      this.$emit('changeConcern');
     }
   }
 }

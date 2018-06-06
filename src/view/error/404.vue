@@ -1,7 +1,7 @@
 <template>
   <div class="error-container">
     <main class="error-main">
-      <img src="../assets/404.png" alt="" srcset="">
+      <img src="../../assets/404.png" alt="" srcset="">
       <div class="error-title">哎呀..... 看上去你迷路了</div>
       <router-link to="/index" tag="div" class="error-link">回到首页</router-link>
     </main>
@@ -10,7 +10,7 @@
 
 <script>
   export default {
-    name: 'error',
+    name: '404',
 
   }
 </script>
