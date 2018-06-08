@@ -9,6 +9,7 @@ const User = r => require.ensure([], () => r(require('@/view/user/user')), 'user
 const Concern =  r => require.ensure([], () => r(require('@/view/concern/concern')), 'concern');
 const Message = r => require.ensure([], () => r(require('@/view/message/message')), 'message');
 const PhotoList =  r => require.ensure([], () => r(require('@/view/concern/children/photoList')), 'photolist');
+const MessageList = r => require.ensure([], () => r(require('@/view/message/children/messagelist')), 'messagelist'); 
 
 const routes = [
   {
@@ -74,7 +75,17 @@ const routes = [
         meta: {
           isAuth: true
         },
-        component: Message
+        component: Message,
+        children: [
+          {
+            path: ':type',
+            name: 'messagelist',
+            meta: {
+              isAuth: true
+            },
+            component: MessageList
+          }
+        ]
       }
     ]
   },

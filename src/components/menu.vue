@@ -9,7 +9,10 @@
     <nav class="menu-nav">
       <router-link :to="{name: 'home'}" exact>发现</router-link>
       <router-link :to="{name: 'concern'}" exact>关注</router-link>
-      <router-link :to="{name: 'message'}" exact>消息</router-link>
+      <router-link :to="{name: 'message',}" exact>
+        消息
+      <span class="menu-badge" v-if="messageTotal">{{messageTotal}}</span>
+      </router-link>
     </nav>
     <div class="menu-user">
       <div class="menu-user-avatar" @mouseover="open = true" @mouseleave="open = false">
@@ -26,7 +29,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import { deleteTokenFromLocalStroage } from '../util/auth.js';
 
 export default {
@@ -41,6 +44,9 @@ export default {
       userAvatar: state => state.user.userAvatar,
       userId: state => state.user.userId
     }),
+    ...mapGetters([
+      'messageTotal'
+    ])
   },
   methods: {
     loginOut(){
@@ -93,10 +99,24 @@ export default {
       display: block;
       padding: 0 15px;
       color: #484e4f;
+      position: relative;
       &:hover{
         background: #5db0c6;
         color: #ffffff;
       }
+    }
+    & .menu-badge{
+      display: block;
+      position: absolute;
+      top: 10px;
+      right: 0px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      text-align: center;
+      background: red;
+      border-radius: 10px;
+      color: #ffffff;
     }
   }
   .menu-user{

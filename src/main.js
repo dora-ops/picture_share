@@ -7,7 +7,7 @@ import store from './store';
 import './assets/scss/index.scss';
 import MiUI from './packages/index';
 import VueLazyload from 'vue-lazyload';
-import 'element-ui/lib/theme-chalk/index.css';
+//import 'element-ui/lib/theme-chalk/index.css';
 import { Carousel, CarouselItem, Upload, Dialog} from 'element-ui';
 
 Vue.config.productionTip = false

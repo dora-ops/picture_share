@@ -4,7 +4,6 @@
       <h4 class="register-title">爱吃</h4>
       <p class="register-desc">分享各地的美食</p>
       <p class="register-error" v-show="valid">{{errorMsg}}</p>
-      <input class="register-input" type="email" placeholder="邮箱" v-model="userEmail">
       <input class="register-input" type="text" placeholder="用户名" v-model="userName">
       <input class="register-input" type="password" placeholder="密码" v-model="userPassword">
       <button class="register-button" type="submit">注册</button>
@@ -20,7 +19,6 @@ import api from '../../plugin/axios';
     name: 'register',
     data(){
       return {
-        userEmail: '',
         userName: '',
         userPassword: '',
         errorMsg: ''
@@ -32,12 +30,8 @@ import api from '../../plugin/axios';
       }
     },
     methods: {
-      validRule(email, userName, userPassword){
+      validRule(userName, userPassword){
         const validator = validators();
-        validator.add(email, [{
-          name: 'isEmail',
-          error: '邮箱格式不正确',
-        }])
         validator.add(userName, [{
           name: 'isNull',
           error: '用户名不能为空'
@@ -54,14 +48,14 @@ import api from '../../plugin/axios';
         return this.errorMsg ? false : true;
       },
       // 验证密码唯一性
-      async uniqueEmail(){
-        const { userEmail, userName, userPassword } = this.$data;
-        const data = await api.getRegisterUnique({params: { email: userEmail }});
+      async uniqueName(){
+        const { userName, userPassword } = this.$data;
+        const data = await api.getRegisterUnique({params: { name: userName }});
         const { data: { status, message } } = data;  
         if(status === 466){
           return this.errorMsg = message;   
         }
-        await this.postUser({ userEmail, userName, userPassword}); 
+        await this.postUser({ userName, userPassword }); 
       },
       // 注册用户
       async postUser(data){
@@ -79,9 +73,9 @@ import api from '../../plugin/axios';
         this.$router.push({ name: 'login' });
       },
       onRegister(){
-        const { userEmail, userName, userPassword } = this.$data;
-        const flag = this.validRule(userEmail, userName, userPassword)
-        if(flag) { this.uniqueEmail() };
+        const { userName, userPassword } = this.$data;
+        const flag = this.validRule(userName, userPassword)
+        if(flag) { this.uniqueName() };
       }
     }
   }  

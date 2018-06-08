@@ -99,6 +99,7 @@ import pinboard from '../../components/pinboard';
       this.getHomeCover();
       this.getAllPhoto();
       this.isInfinite = true;
+      this.$store.dispatch('GET_COUNT_LIST');
     }
   }
 </script>

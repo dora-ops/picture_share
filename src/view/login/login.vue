@@ -4,7 +4,7 @@
       <h4 class="login-title">极简</h4>
       <p class="login-desc">记录生活的美好</p>
       <p class="login-error" v-show="valid">{{errorMsg}}</p>
-      <input class="login-input" type="email" placeholder="邮箱" v-model="userEmail">
+      <input class="login-input" type="text" placeholder="用户名" v-model="userName">
       <input class="login-input" type="password" placeholder="密码" v-model="userPassword">
       <div class="login-tip">
         <router-link to="/register" tag="span">还未注册</router-link>
@@ -24,7 +24,7 @@ import { setTokenToLocalStroage } from '../../util/auth';
     middleware: 'noauth',
     data(){
       return {
-        userEmail: '',
+        userName: '',
         userPassword: '',
         errorMsg: '',
       }
@@ -35,11 +35,11 @@ import { setTokenToLocalStroage } from '../../util/auth';
       }
     },
     methods: {
-      validRule(email, password){
+      validRule(name, password){
          const validator = validators();
-         validator.add(email, [{
-          name: 'isEmail',
-          error: '邮箱格式不正确',
+         validator.add(name, [{
+          name: 'isNull',
+          error: '用户名不能为空'
         }])
 
         validator.add(password, [{
@@ -68,9 +68,9 @@ import { setTokenToLocalStroage } from '../../util/auth';
         this.$router.push({name: 'home'})
       },
       onLogin(){
-        const { userEmail, userPassword } = this.$data;
-        const flag = this.validRule(userEmail, userPassword);
-        if(flag) { this.postLogin({ userEmail, userPassword }) }; 
+        const { userName, userPassword } = this.$data;
+        const flag = this.validRule(userName, userPassword);
+        if(flag) { this.postLogin({ userName, userPassword }) }; 
       }
     }
   }  
