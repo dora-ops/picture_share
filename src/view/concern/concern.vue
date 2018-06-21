@@ -20,7 +20,7 @@
 <script>
   import { mapState } from 'vuex';
   import api from '../../plugin/axios.js';
-
+  import { getUserConcern } from '../../API/concern.js';
   export default {
     name: 'concern',
     data(){
@@ -35,10 +35,7 @@
     },
     methods: {
       async getConcern(){
-        const data = await api.getAllConcern({ 
-          params: { id: this.userId }
-        })
-        const { data: { data: concernUsers } } = data;
+        const concernUsers = await getUserConcern(this.userId);
         this.concernUser = concernUsers;
       },
       routePhotoList(user){

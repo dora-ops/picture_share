@@ -9,10 +9,10 @@
 </template>
 
 <script>
-import menu from '../../components/menu';
-import api from '../../plugin/axios';
-import upload from './children/upload';
 import { mapState } from "vuex";
+import upload from './children/upload';
+import menu from '../../components/menu';
+import { getUserInfo } from '../../API/index.js';
 
   export default {
     name: 'index',
@@ -27,9 +27,11 @@ import { mapState } from "vuex";
     },
     methods: {
       async getUserInfo(){
-        const data = await api.getUserinfo({ params: { id: this.userId }});
-        const { data: { data: { userName, userAvatar } } } = data;
-        this.$store.commit('SET_USERINFO', { userName, userAvatar });
+        const resData = await getUserInfo(this.userId);
+        this.$store.commit('SET_USERINFO', { 
+          userName: resData.userName, 
+          userAvatar: resData.userAvatar 
+        });
       },
     },
     created(){

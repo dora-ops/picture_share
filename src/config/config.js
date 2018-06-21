@@ -5,3 +5,8 @@ export const messageAction = {
   concern: '关注',
   letter: '私信'
 }
+
+export const state = {
+  scuess: '1',
+  error: '0'
+}

@@ -6,14 +6,11 @@
 </template>
 
 <script>
-import jumbotron from '../../components/jumbotron';
-import pinboard from '../../components/pinboard';
-import api from '../../plugin/axios';
 import { mapState } from 'vuex';
-const state = {
-  scuess: '1',
-  error: '0'
-}
+import { state } from '../../config/config.js';
+import pinboard from '../../components/pinboard';
+import jumbotron from '../../components/jumbotron';
+import { getUserDetail, getUserPhoto, getConcernState, toogleConcernState } from '../../API/user.js';
 
 export default {
   name: 'user',
@@ -34,6 +31,11 @@ export default {
       const { id } = to.params;
       this.id = id;
       this.getUserHomeData(id);
+    },
+    id(val, oldval){
+      if(val !== oldval){
+        this.getConcernState(val);
+      }
     }
   },
   computed: {
@@ -46,25 +48,17 @@ export default {
   },
   methods: {
     async getUserHomeData(id){
-      const data = await api.getUserhome( { params: { id } } );
-      const photoData = await api.getUserPhoto( {params: { id } } );
-      const { data: { data: userData } } = data;
-      const { data: { data: photos } } = photoData;
+      const photos = await getUserPhoto(id);
+      const userData = await getUserDetail(id);
       this.userInfo = userData;
       this.photos = photos;
-      if(this.id !== this.userId){
-        const concernData= await api.getConcernState({ 
-          params: { concernFromId: this.userId, userId: id }
-        })
-        const { data: { data: concernState } } = concernData;
-        this.concernState = concernState;
-      }
+    },
+    async getConcernState(id){
+      const concernState = await getConcernState(this.userId, id);
+      this.concernState = concernState;
     },
     async changeConcern(){
-      const stateData = await api.postConcernState({
-        data: {concernFromId: this.userId, userId: this.userInfo.id}
-      })
-      const { data: { data: concernState } } = stateData;
+      const concernState = await toogleConcernState(this.userId, this.userInfo.id);
       this.concernState =concernState;
     }
   },

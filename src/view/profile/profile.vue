@@ -13,9 +13,9 @@
         <div class="profile-avatar-img"> 
           <img :src="userProfile.userAvatar" alt="">
         </div>
-        <mi-upload :meta="{ type: 'avatar', userId: userId}" :afterUpload="handleUpload">
+        <el-upload ref='upload' action="http://139.199.230.46:3000/upload" :data="{type: 'avatar', userId: userId}" :headers="{Authorization:`Bearer ${userToken}`}" accept=".jpg, .jpeg" :on-success="handleResponse">
           <button class="btn">更换图像</button>
-        </mi-upload>
+        </el-upload>
       </div>
     </div>
   </section>  
@@ -24,6 +24,8 @@
 <script>
 import { mapState }from 'vuex';
 import api from '../../plugin/axios';
+import { uniqueName } from '../../API/register.js'
+import { getUserProfile, saveUserProfile} from '../../API/profile.js';
 
 export default {
   name: 'profile',
@@ -38,30 +40,28 @@ export default {
   },
   computed: {
     ...mapState({
-      userId: state => state.user.userId
+      userId: state => state.user.userId,
+      userToken: state => state.useruserToken
     })
   },
   methods: {
     async getUserProfile(id){
-      const data = await api.getUserProfile({params: { id }});
-      const { data: { data: userProfile } } = data;
+      const userProfile = await getUserProfile(id);
       this.userProfile = userProfile;
     },
-    handleUpload(data){
+    handleResponse(data){
       const { data: { data: dataSrc }} = data;
       this.userProfile.userAvatar = dataSrc[0];
     },
     async handleSave(){
-      const data = await api.postUserinfo({ 
-        data: { userProfile: this.userProfile, id: this.userId },
-        params: { id: this.userId }
-      });
-      if(data.status === 200){
-        this.$message({
-          message: '保存成功',
-          type: 'success',
-          center: true,
-        });
+      const uniqueMessage = await uniqueName(this.userProfile.userName);
+      if(uniqueMessage){
+        this.$message({type: 'error', message: uniqueMessage, center: true});
+        return; 
+      }
+      const resData = await saveUserProfile(this.userId, this.userProfile);
+      this.$message({type: resData.type, message: resData.message, center: true});
+      if(resData.status !== 466){
         this.$store.commit('SET_USERINFO', this.userProfile);
       }
     },

@@ -14,6 +14,7 @@
 <script>
 import validators from '../../plugin/valid';
 import api from '../../plugin/axios';
+import { uniqueName, registerUser } from '../../API/register.js';
 
   export default {
     name: 'register',
@@ -47,34 +48,24 @@ import api from '../../plugin/axios';
 
         return this.errorMsg ? false : true;
       },
-      // 验证密码唯一性
+      // 验证用户名唯一性
       async uniqueName(){
-        const { userName, userPassword } = this.$data;
-        const data = await api.getRegisterUnique({params: { name: userName }});
-        const { data: { status, message } } = data;  
-        if(status === 466){
-          return this.errorMsg = message;   
+        const uniqueMessage = await uniqueName(this.userName);
+        if(uniqueMessage){
+          return this.errorMsg = uniqueMessage; 
         }
-        await this.postUser({ userName, userPassword }); 
+        await this.postUser({ userName: this.userName, userPassword: this.userPassword }); 
       },
       // 注册用户
       async postUser(data){
-        const isRegister = await api.postRegister({ data });
-        const { data: { status, message } } = isRegister;
-        if(status === 466){
-          this.$mesage({
-            message: message,
-            type: 'error',
-            center: true,
-            enterClass: 'in'
-          })
-          return;
+        const registerMessage = await registerUser(data);
+        if(registerMessage){
+          return this.errorMsg = registerMessage;
         }
         this.$router.push({ name: 'login' });
       },
       onRegister(){
-        const { userName, userPassword } = this.$data;
-        const flag = this.validRule(userName, userPassword)
+        const flag = this.validRule(this.userName, this.userPassword)
         if(flag) { this.uniqueName() };
       }
     }

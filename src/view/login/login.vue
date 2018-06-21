@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import api from '../../plugin/axios';
+import { loginUser } from '../../API/login.js'
 import validators from '../../plugin/valid';
 import { setTokenToLocalStroage } from '../../util/auth';
 
@@ -53,17 +53,14 @@ import { setTokenToLocalStroage } from '../../util/auth';
         return this.errorMsg ? false : true;
       },
       async postLogin(userInfo){
-        const loginData = await api.postLogin({ data: userInfo });
-        const { data: { status, message } } = loginData;
-        if( status === 466){
-          this.errorMsg = message;
-          return;
+        const resData = await loginUser(userInfo);
+        if(typeof resData === 'object'){
+          setTokenToLocalStroage(resData.token, resData.id);
+        }else{
+          this.errorMsg = resData;
         }
-        const { data: { data: { token, id } } } = loginData;
-        // 设置token
-        setTokenToLocalStroage(token, id)
         // vuex设置user状态 
-        this.$store.commit('LOGIN_IN', {token, id});
+        this.$store.commit('LOGIN_IN', { token: resData.token, id: resData.id });
         // 跳转主页
         this.$router.push({name: 'home'})
       },

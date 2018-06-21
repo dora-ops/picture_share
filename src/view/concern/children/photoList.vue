@@ -9,7 +9,8 @@
 <script>
   import api from '../../../plugin/axios.js';
   import card from '../../../components/card';
-  
+  import { getUserPhoto } from '../../../API/user.js'
+
   export default {
     name: 'photoList',
     components: {
@@ -22,8 +23,7 @@
     },
     methods: {
       async getPhoto(id){
-        const photoData = await api.getUserPhoto({ params: { id }});
-        const {data: { data: photoArray }} = photoData;
+        const photoArray = await getUserPhoto(id);
         this.photoArray = photoArray;
       },
     },

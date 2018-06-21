@@ -1,13 +1,9 @@
 import Vue from 'vue';
-import Grid from './grid/index';
-import Upload from './upload/index';
 import Dialog from './dialog/index';
 import Message from './message/index';
 import MessageBox from './message/src/main';
 
 const components = [
-  Grid,
-  Upload,
   Dialog,
   Message
 ]

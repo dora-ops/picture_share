@@ -30,6 +30,7 @@
 
 <script>
 import api from '../../plugin/axios.js';
+import { getHomeCover, getLimitPhoto } from '../../API/home.js';
 import pinboard from '../../components/pinboard';
 
   export default {
@@ -49,21 +50,12 @@ import pinboard from '../../components/pinboard';
     },
     methods: {
       async getHomeCover(){
-        const data = await api.getHomeCover();
-        const { data: { data: homeCovers } } = data;
-        this.homeCovers = homeCovers.map(cover => {
-          const normal = JSON.parse(cover.photoNormal);
-          cover.photoNormal = normal.pop();
-          cover.createdTime = this.coverTime(cover.createdTime);
-          return cover;
-        })
+        const resData = await getHomeCover();
+        this.homeCovers = resData;
       },
       async getAllPhoto(){
         if(!this.isInfinite) return;
-        const data = await api.getAllPhoto({ 
-          params: { offset: this.offset, limit: this.limit }
-        });
-        const { data: { data: photoArray } } = data;
+        const photoArray = await getLimitPhoto(this.offset, this.limit);
         this.appendPhoto(photoArray);
       },
       appendPhoto(photoArray){
@@ -84,13 +76,6 @@ import pinboard from '../../components/pinboard';
         })
         this.intersection.observe(this.$refs.loading);
       },
-      coverTime(time){
-        let date = new Date(time);
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        return `${year}-${month}-${day}`;
-      }
     },
     mounted(){
       this.infiniteLoad();

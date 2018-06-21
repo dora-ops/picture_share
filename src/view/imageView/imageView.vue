@@ -53,13 +53,12 @@
 </template>
 
 <script>
-import api from '../../plugin/axios.js';
-import User from '../../store/modules/user.js';
-import { mapState } from 'vuex';
-const state = {
-  success: '1',
-  error: '0'
-}
+  import { mapState } from 'vuex';
+  import { state } from '../../config/config.js';
+  import api from '../../plugin/axios.js';
+  import { getUserDetail } from '../../API/user.js';
+  import { getPhotoInfo } from '../../API/imageView.js';
+
   export default {
     name: 'imageView',
     data(){
@@ -97,17 +96,13 @@ const state = {
     },
     methods: {
       async getPhotoInfo(id){
-        const photoInfo = await api.getPhotoInfo({ 
-          params: { photoId: id, userId: this.userId } 
-        });
-        const { data: { data: { userId }, data: photoData } } = photoInfo;
-        const userInfo = await api.getUserhome({ params: { id: userId }});
-        const { data: { data: userData } } = userInfo; 
+        const resData = await getPhotoInfo(id, this.userId);
+        const userData = await getUserDetail(resData.userId); 
         this.userInfo = userData;
-        this.photoInfo = photoData;
-        this.photoInfo.photoNormal = JSON.parse(photoData.photoNormal);
-        this.praiseState = photoData.praiseState;
-        this.collectionState = photoData.collectionState;
+        this.photoInfo = resData.photoData;
+        this.photoInfo.photoNormal = JSON.parse(resData.photoData.photoNormal);
+        this.praiseState = resData.photoData.praiseState;
+        this.collectionState = resData.photoData.collectionState;
       },
       async handlePraise(){
         const stateData = await api.postPraiseState({ data: {
