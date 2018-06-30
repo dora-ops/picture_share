@@ -1,9 +1,24 @@
-export const messageAction = {
-  praise: '点赞',
-  collection: '收藏',
-  comments: '评论',
-  concern: '关注',
-  letter: '私信'
+export const actionType = {
+  praise: {
+    state: '0',
+    text: '点赞',
+    route: 'praise'
+  },
+  collection: {
+    state: '1',
+    text: '收藏',
+    route: 'collection',
+  },
+  comments: {
+    state: '2',
+    text: '评论',
+    route: 'comments'
+  },
+  letter: {
+    state: '3',
+    text: '私信',
+    route: 'letter'
+  }
 }
 
 export const state = {

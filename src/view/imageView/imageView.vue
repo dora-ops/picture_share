@@ -17,7 +17,7 @@
           </div>
           <div class="imageView-meta">
             <h3 class="imageView-info">{{photoInfo.photoTitle}}</h3>
-            <p class="imageView-info">发布于 {{time}} </p>
+            <p class="imageView-info">发布于 {{photoInfo.createdTime}} </p>
             <div class="imageView-info imageView-desc">
               <p>{{photoInfo.photoDesc}}</p>
             </div>
@@ -45,7 +45,7 @@
           <div class="imageView-action">
             <button class="btn" @click="handlePraise">{{praiseText}}</button>
             <button class="btn" @click="handleCollection">{{collectionText}}</button>
-            <button class="btn" @click="handleMessage">发送消息</button>
+            <button class="btn">发送消息</button>
           </div>
       </section>
     </section>
@@ -54,39 +54,32 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { state } from '../../config/config.js';
-  import api from '../../plugin/axios.js';
   import { getUserDetail } from '../../API/user.js';
-  import { getPhotoInfo } from '../../API/imageView.js';
+  import { state, actionType } from '../../config/config.js';
+  import { getPhotoInfo, postAction, getActionState } from '../../API/imageView.js';
 
   export default {
     name: 'imageView',
     data(){
       return {
-        id: null,
+        photoId: null,
         userInfo: {},
         photoInfo: {},
-        praiseState: null,
-        collectionState: null
+        praiseState: state.error,
+        collectionState: state.error,
       }
     },
     watch: {
       '$route'(to, from){
         const { params: { id } } = to;
+        this.photoId = id;
         this.getPhotoInfo(id);
-      }
+      },
     },
     computed: {
       ...mapState({
         userId: state => state.user.userId
       }),
-      time(){
-        let date = new Date(this.photoInfo.createdTime);
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        return `${year}-${month}-${day}`;
-      },
       praiseText(){
         return this.praiseState === state.error ? '点赞支持' : '已点赞';
       },
@@ -95,37 +88,38 @@
       }
     },
     methods: {
-      async getPhotoInfo(id){
-        const resData = await getPhotoInfo(id, this.userId);
-        const userData = await getUserDetail(resData.userId); 
+      async getPhotoInfo(photoId){
+        const { createId, photoData } = await getPhotoInfo(photoId, this.userId);
+        const userData = await getUserDetail(createId);
+        const actionData = await getActionState(this.userId, createId, photoId);
+        actionData.forEach(action => {
+          if(action.actionType === actionType.praise.state){
+            this.praiseState = action.actionState;
+          }
+          if(action.actionType === actionType.collection.state){
+            this.collectionState = action.actionState;
+          }
+        });
         this.userInfo = userData;
-        this.photoInfo = resData.photoData;
-        this.photoInfo.photoNormal = JSON.parse(resData.photoData.photoNormal);
-        this.praiseState = resData.photoData.praiseState;
-        this.collectionState = resData.photoData.collectionState;
+        this.photoInfo = photoData;
       },
       async handlePraise(){
-        const stateData = await api.postPraiseState({ data: {
-          praiseFromId: this.userId,
-          praiseToId: this.userInfo.userId,
-          photoId: this.photoInfo.id,
-        }});
-        const { data: { data: praiseState } } = stateData;
-        this.praiseState = praiseState;
-        praiseState === state.error ? this.photoInfo.photoLikes -= 1 : this.photoInfo.photoLikes += 1; 
+        this.praiseState = await postAction({
+          actionType: actionType.praise.state,
+          actionToId: this.userInfo.userId,
+          actionFromId: this.userId,
+          photoId: this.photoInfo.id
+        })
+        this.praiseState === state.error ? this.photoInfo.photoLikes -= 1 : this.photoInfo.photoLikes += 1; 
       },
       async handleCollection(){
-        const stateData = await api.postCollectionState({ data: {
-          collectionFromId: this.userId,
-          collectionToId: this.userInfo.userId,
-          photoId: this.photoInfo.id,
-        }})
-        const { data: { data: collectionState } } = stateData;
-        this.collectionState = collectionState;
-        collectionState === state.error ? this.photoInfo.photoCollection -= 1 : this.photoInfo.photoCollection += 1; 
-      },
-      async handleMessage(){
-
+        this.collectionState = await postAction({
+          actionType: actionType.collection.state,
+          actionToId: this.userInfo.userId,
+          actionFromId: this.userId,
+          photoId: this.photoInfo.id
+        })
+        this.collectionState=== state.error ? this.photoInfo.photoCollection -= 1 : this.photoInfo.photoCollection += 1; 
       },
       routeHome(){
         this.$router.push({ name: 'user', params: { id: this.userInfo.id }});
@@ -133,7 +127,7 @@
     },
     created(){
       const { params: { id } } = this.$route;
-      this.id = id;
+      this.photoId = id;
       this.getPhotoInfo(id);
     }
   }

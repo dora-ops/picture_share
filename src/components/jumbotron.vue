@@ -25,16 +25,13 @@
         </li>
         <li>
           <span href="#"><i class="fas fa-star"></i></span>
-          <span>{{user.userCollection}}</span>
+          <span>{{user.userCollections}}</span>
         </li>
       </ul>
       <el-upload v-if="isUser"
       ref='upload' action="http://139.199.230.46:3000/upload" :data="{type: 'coverPic', userId: userId}" :headers="{Authorization:`Bearer ${userToken}`}" accept=".jpg, .jpeg" :on-success="handleResponse" :show-file-list="false">
         <button class="btn jumbotron-slide-edit">编辑封面图</button>
       </el-upload>
-     <!-- <mi-upload v-if="isUser" :meta="{ type: 'coverPic', userId: userId }" :afterUpload="handleUpload">
-        <button class="btn jumbotron-slide-edit">编辑封面图</button>
-      </mi-upload>-->
       <button class="btn jumbotron-slide-edit" @click="changeConcern" v-else>{{concernText}}</button>
     </aside>
   </section>
@@ -74,7 +71,7 @@ export default {
   },
   methods: {
     handleResponse(data){
-      const { data: dataSrc } = data; 
+      const { data: dataSrc } = data;
       this.updateBgimg(dataSrc[0]);
     },
     async updateBgimg(bgImg){
@@ -83,7 +80,12 @@ export default {
         data: { userBgimg: bgImg } 
       });
       const { data: { message, status } } = data;
-      status === 466 ? this.$message({message, type: 'error'}) : this.$message({ message, type: 'success' }); 
+      if(status === 466){
+        this.$message({message, type: 'error'})
+      }else{
+        this.user.userBgimg = bgImg;
+        this.$message({ message, type: 'success' });
+      }  
     },
     changeConcern(){
       this.$emit('changeConcern');

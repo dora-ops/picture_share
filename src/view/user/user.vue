@@ -1,7 +1,7 @@
 <template>
   <section class="user-container">
     <min-jumbotron :user="userInfo" :concernText="concernText" @changeConcern="changeConcern"></min-jumbotron>
-    <min-pinboard :photoData="photos"></min-pinboard>
+    <min-pinboard :photoData="userInfo.photos"></min-pinboard>
   </section>
 </template>
 
@@ -34,7 +34,7 @@ export default {
     },
     id(val, oldval){
       if(val !== oldval){
-        this.getConcernState(val);
+       // this.getConcernState(val);
       }
     }
   },
@@ -48,10 +48,15 @@ export default {
   },
   methods: {
     async getUserHomeData(id){
-      const photos = await getUserPhoto(id);
-      const userData = await getUserDetail(id);
-      this.userInfo = userData;
-      this.photos = photos;
+      this.userInfo = await getUserDetail(id);
+      let { photos } = this.userInfo;
+      this.userInfo.userLikes = 0;
+      this.userInfo.userCollections = 0;
+      this.userInfo.userPhotos = this.userInfo.photos.length;
+      photos.forEach(photo => {
+        this.userInfo.userLikes += photo.photoLikes;
+        this.userInfo.userCollections += photo.photoCollections;
+      });
     },
     async getConcernState(id){
       const concernState = await getConcernState(this.userId, id);

@@ -16,7 +16,7 @@
               <span class="icon-yellow">
                 <i class="fas fa-star"></i>
               </span>
-              <span>{{cover.photoCollection}}</span>
+              <span>{{cover.photoCollections}}</span>
             </div>
           </div>
         </div>

@@ -83,7 +83,7 @@ const routes = [
             meta: {
               isAuth: true
             },
-            component: MessageList
+            component: MessageList,
           }
         ]
       }

@@ -9,7 +9,7 @@
           <span>{{message.detail.userName}}</span>
           <span>{{messageText}}你的作品</span>
           <span>{{message.photoInfo.photoTitle}}</span>
-          <div class="messagelist-time">{{covertTime(message.createdTime)}}</div>
+          <div class="messagelist-time">{{message.createdTime}}</div>
         </div>
       </li>
     </ul>
@@ -17,9 +17,9 @@
 </template>
 
 <script>
-  import { messageAction } from '../../../config/config.js';
   import { mapState } from 'vuex';
-  import api from '../../../plugin/axios.js';
+  import { actionType } from '../../../config/config.js';
+  import { getMessageList } from '../../../API/message.js';
 
   export default {
     name: 'messagelist',
@@ -38,32 +38,19 @@
     },
     computed:{
       ...mapState({
-        userId: state => state.user.userId
+        userId: state => state.user.userId,
+        userMessage: state => state.user.userMessage
       }),
       messageText(){
-        let keys = Object.keys(messageAction);
-        for (const key of keys) {
-          if(key === this.type){
-            return messageAction[key];
-          }
-        }
+        return actionType[this.type].text;
       },
     },
     methods: {
       async getTypeMessage(type, id){
-        const data = await api.getMessageList({ params: { type, id } }); 
-        const { data: { data: messagelist } } = data;
-        this.messageList = messagelist;
+        let messageType = actionType[type].state;
+        this.messageList = await getMessageList(messageType, id); 
         this.$store.dispatch('GET_COUNT_LIST');
-        this.$emit('deleteMessage', this.type);
       },
-      covertTime(time){
-        let date = new Date(time);
-        let year = date.getFullYear();
-        let month = date.getMonth() + 1;
-        let day = date.getDate();
-        return `${year}-${month}-${day}`;
-      }
     },
     created(){
       const { params: { type } } = this.$route;
