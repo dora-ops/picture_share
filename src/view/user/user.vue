@@ -34,7 +34,7 @@ export default {
     },
     id(val, oldval){
       if(val !== oldval){
-       // this.getConcernState(val);
+       this.getConcernState(val);
       }
     }
   },
@@ -64,7 +64,7 @@ export default {
     },
     async changeConcern(){
       const concernState = await toogleConcernState(this.userId, this.userInfo.id);
-      this.concernState =concernState;
+      this.concernState = concernState;
     }
   },
   created() {

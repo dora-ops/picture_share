@@ -1,31 +1,45 @@
 <template>
   <section class="concern-container">
-    <div class="concern-main">
-      <div class="concern-left">
-        <ul class="concern-list">
-          <li class="concern-list-item">添加关注</li>
-          <li class="concern-list-item" v-for="user in concernUser" :key="user.id" @click="routePhotoList(user)">
-            <img :src="user.userAvatar" alt="">
-            <p class="item-name">{{user.userName}}</p>
-          </li>
-        </ul>
+    <div class="concern-left">
+        
+    </div>
+    <div class="concern-right">
+      <div class="concern-userInfo">
+        <div class="concern-avatar">
+          <img :src="userDetail.userAvatar" alt="" srcset="">
+        </div>
+        <p class="concern-name">{{userDetail.userName}}</p>
       </div>
-      <div class="concern-right">
-        <router-view></router-view>
-      </div>
+      <div class="concern-meta">
+          <ul class="concern-metalist">
+            <li>
+              <p>粉丝</p>
+              <p>{{userDetail.fanCount}}</p>
+            </li>
+            <li>
+              <p>作品</p>
+              <p>{{userDetail.photoCount}}</p>
+            </li>
+            <li>
+              <p>关注</p>
+              <p>{{userDetail.followCount}}</p>
+            </li>
+          </ul>
+        </div>
     </div>
   </section>
 </template>
 
 <script>
   import { mapState } from 'vuex';
-  import api from '../../plugin/axios.js';
-  import { getUserConcern } from '../../API/concern.js';
+  import { getUserDetail } from '../../API/user.js';
+  import { getUserFromConcern, getConcerenPhotoList } from '../../API/concern.js'
   export default {
     name: 'concern',
     data(){
       return {
-        concernUser: [],
+        userDetail: {},
+        photolist: []
       }
     },
     computed: {
@@ -34,69 +48,78 @@
       })
     },
     methods: {
-      async getConcern(){
-        const concernUsers = await getUserConcern(this.userId);
-        this.concernUser = concernUsers;
+      async getUserFromConcern(){
+        this.userDetail = await getUserFromConcern(this.userId);
       },
-      routePhotoList(user){
-        this.$router.push({name: 'photolist', params: { id: user.id } });
+      async getConcerenPhotoList(){
+        this.photolist = await getConcerenPhotoList(this.userId);
       }
     },
     created(){
-      this.getConcern()
+      this.getUserFromConcern();
+      this.getConcerenPhotoList();
     }
   }
 </script>
 
 <style lang="scss">
   .concern-container{
-    min-height: calc(100vh - 73px);
-    background: #ffffff;
-  }
-  .concern-main{
-    width: 1300px;
-    margin: 0 auto;
-    padding: 30px 0;
+    margin-top: 103px;
+    width: 940px;
+    margin-left: auto;
+    margin-right: auto;
     display: flex;
   }
   .concern-left{
-    position: fixed;
-    top: 0;
-    margin-top: 73px;
-    bottom: 0;
-    width: 300px;
-    overflow: auto;
-    border-right: 1px solid #f0f0f0
+    width: 680px;
   }
   .concern-right{
-    width: 1000px;
-    padding-left: 30px;
-    margin-left: 300px;
-    height: auto;
+    width: 240px;
+    height: 240px;
+    margin-left: 20px;
+    background: #ffffff;
   }
-  .concern-list{
-    width: 100%;
-  }
-  .concern-list-item{
-    width: 100%;
-    height: 70px;
-    line-height: 70px;
-    padding: 10px 0 10px 15px;
+  .concern-userInfo{
+    padding: 20px;
     display: flex;
-    align-items: center;
-    cursor: pointer;
-    font-size: 14px;
-    &:hover{
-      background: #f0f0f0;
-    }
-    &:first-of-type{
-      border-bottom: 1px solid #c9cdce;
-    }
+    height: 160px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .concern-avatar{
+    width: 62px;
+    height: 62px;;
     & img{
-      width: 50px;
-      height: 50px;
-      margin-right: 15px;
+      width: 100%;
+      height: 100%;
       border-radius: 50%;
+    }
+  }
+  .concern-name{
+    width: 100%;
+    text-align: center;
+    margin-top: 15px;
+  }
+  .concern-meta{
+    width: 100%;
+    border-top: 1px solid #eee;
+  }
+  .concern-metalist{
+    display: flex;
+    height: 80px;
+    justify-content: space-between;
+    & li{
+      flex: 1 0 auto;
+      height: 80px;
+      text-align: center; 
+      & p {
+        margin-top: 15px; 
+        height: 20px;
+        line-height: 20px;
+      }
+    }
+    & li:not(:first-child){
+      border-left: 1px solid #eee;
     }
   }
 </style>
