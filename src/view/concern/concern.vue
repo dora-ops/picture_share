@@ -1,7 +1,7 @@
 <template>
   <section class="concern-container">
     <div class="concern-left">
-        
+       <min-concernImage v-for="photo in photolist" :key="photo.id" :imageDetail="photo" ></min-concernImage> 
     </div>
     <div class="concern-right">
       <div class="concern-userInfo">
@@ -33,7 +33,9 @@
 <script>
   import { mapState } from 'vuex';
   import { getUserDetail } from '../../API/user.js';
-  import { getUserFromConcern, getConcerenPhotoList } from '../../API/concern.js'
+  import  concernImage from './children/concernImage.vue';
+  import { getUserFromConcern, getConcerenPhotoList } from '../../API/concern.js';
+
   export default {
     name: 'concern',
     data(){
@@ -41,6 +43,9 @@
         userDetail: {},
         photolist: []
       }
+    },
+    components: {
+      'min-concernImage': concernImage
     },
     computed: {
       ...mapState({
@@ -53,7 +58,7 @@
       },
       async getConcerenPhotoList(){
         this.photolist = await getConcerenPhotoList(this.userId);
-      }
+      },
     },
     created(){
       this.getUserFromConcern();
