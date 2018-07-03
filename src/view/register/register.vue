@@ -5,6 +5,7 @@
       <p class="register-desc">分享各地的美食</p>
       <p class="register-error" v-show="valid">{{errorMsg}}</p>
       <input class="register-input" type="text" placeholder="用户名" v-model="userName">
+      <input class="register-input" type="text" placeholder="昵称" v-model="userNickName">
       <input class="register-input" type="password" placeholder="密码" v-model="userPassword">
       <button class="register-button" type="submit">注册</button>
     </form>
@@ -22,6 +23,7 @@ import { uniqueName, registerUser } from '../../API/register.js';
       return {
         userName: '',
         userPassword: '',
+        userNickName: '',
         errorMsg: ''
       }
     },
@@ -31,7 +33,7 @@ import { uniqueName, registerUser } from '../../API/register.js';
       }
     },
     methods: {
-      validRule(userName, userPassword){
+      validRule(userName, userNickName, userPassword){
         const validator = validators();
         validator.add(userName, [{
           name: 'isNull',
@@ -44,6 +46,11 @@ import { uniqueName, registerUser } from '../../API/register.js';
           error: '密码不能少于6个字符'
         }])
 
+        validator.add(userNickName, [{
+          name: 'isNull',
+          error: '昵称不能为空'
+        }])
+
         this.errorMsg = validator.run();
 
         return this.errorMsg ? false : true;
@@ -52,9 +59,13 @@ import { uniqueName, registerUser } from '../../API/register.js';
       async uniqueName(){
         const uniqueMessage = await uniqueName(this.userName);
         if(uniqueMessage){
-          return this.errorMsg = uniqueMessage; 
+          return this.errorMsg = uniqueMessage;
         }
-        await this.postUser({ userName: this.userName, userPassword: this.userPassword }); 
+        await this.postUser({ 
+          userName: this.userName, 
+          userNickName: this.userNickName, 
+          userPassword: this.userPassword 
+        }); 
       },
       // 注册用户
       async postUser(data){
@@ -65,7 +76,7 @@ import { uniqueName, registerUser } from '../../API/register.js';
         this.$router.push({ name: 'login' });
       },
       onRegister(){
-        const flag = this.validRule(this.userName, this.userPassword)
+        const flag = this.validRule(this.userName, this.userNickName, this.userPassword)
         if(flag) { this.uniqueName() };
       }
     }

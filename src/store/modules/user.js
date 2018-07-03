@@ -29,7 +29,7 @@ const User = {
       state.userToken = null;
     },
     SET_USERINFO(state, user){
-      state.userName = user.userName;
+      state.userName = user.userNickName;
       state.userAvatar = user.userAvatar;
     },
     SET_MESSAGES(state, userMessage){

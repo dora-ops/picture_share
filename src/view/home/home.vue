@@ -1,6 +1,6 @@
 <template>
   <section class="home-container">
-    <el-carousel height="400px">
+    <el-carousel height="470px">
       <el-carousel-item class="home-carousel" v-for="cover in homeCovers" :key="cover.id">
         <div class="home-coverInfo">
           <h3>{{cover.photoTitle}}</h3>
@@ -16,75 +16,69 @@
               <span class="icon-yellow">
                 <i class="fas fa-star"></i>
               </span>
-              <span>{{cover.photoCollections}}</span>
+              <span>{{cover.photoCollection}}</span>
             </div>
           </div>
         </div>
         <img class="home-coverPic" :src="cover.photoNormal" alt="">
       </el-carousel-item>
     </el-carousel>
-    <min-pinboard :photoData="photoArray"></min-pinboard>
-    <div class="home-loading" ref="loading"></div>
+    <section class="home-section home-recommend">
+      <div class="home-section-title">
+        <span class="icon-red"><i class="fas fa-dot-circle"></i></span>
+        <h1>首页推荐</h1>
+        <span class="icon-red"><i class="fas fa-dot-circle"></i></span>
+      </div>
+      <div class="home-recommend-photo">
+        <min-imgNormal v-for="photo in recommendArray" :key="photo.id" :photo="photo" :avatar="photo.userInfo.userAvatar"></min-imgNormal>
+      </div>
+    </section>
+    <section class="home-section home-hot">
+      <div class="home-section-title">
+        <span class="icon-red"><i class="fas fa-dot-circle"></i></span>
+        <h1>最热摄影师</h1>
+        <span class="icon-red"><i class="fas fa-dot-circle"></i></span>
+      </div>
+      <div class="home-hot-photo">
+        <min-userNormal v-for="photographer in photographerArray" :key="photographer.id" :photographer="photographer.userInfo" :fanTotal="photographer.fanTotal"></min-userNormal>
+      </div>
+    </section>
+    <section class="home-section home-footer">
+      
+    </section>
   </section>
 </template>
 
 <script>
-import api from '../../plugin/axios.js';
-import { getHomeCover, getLimitPhoto } from '../../API/home.js';
-import pinboard from '../../components/pinboard';
+
+import { getHomeCover, getRecommendPhoto, getHotPhotographer } from '../../API/home.js';
+import imgNormal from './children/imgNormal';
+import userNormal from './children/userNormal';
+
 
   export default {
     name: 'home',
     components: {
-      'min-pinboard': pinboard
+      'min-imgNormal': imgNormal,
+      'min-userNormal': userNormal   
     },
     data(){
       return {
         homeCovers: [],
-        photoArray: [],
-        offset: 0,
-        limit: 8,
-        isInfinite: false,
-        intersection: null,
+        recommendArray: [],
+        photographerArray: []
       }
     },
     methods: {
-      async getHomeCover(){
-        const resData = await getHomeCover();
-        this.homeCovers = resData;
-      },
-      async getAllPhoto(){
-        if(!this.isInfinite) return;
-        const photoArray = await getLimitPhoto(this.offset, this.limit);
-        this.appendPhoto(photoArray);
-      },
-      appendPhoto(photoArray){
-        if(photoArray.length !== this.limit){
-          this.isInfinite = false;
-        }
-        this.offset += this.limit;
-        photoArray.forEach(photo => this.photoArray.push(photo));
-      },
-      infiniteLoad(){
-        this.intersection = new IntersectionObserver((entries)=>{
-          if(entries[0].isIntersecting){
-            this.getAllPhoto()
-          }
-        }, {
-          root: null,
-          threshold: 1
-        })
-        this.intersection.observe(this.$refs.loading);
-      },
-    },
-    mounted(){
-      this.infiniteLoad();
+      async getHomeData(){
+        this.homeCovers = await getHomeCover();
+        this.recommendArray = await getRecommendPhoto();
+        this.photographerArray = await getHotPhotographer();
+      }
     },
     created(){
-      this.getHomeCover();
-      this.getAllPhoto();
-      this.isInfinite = true;
-      this.$store.dispatch('GET_COUNT_LIST');
+      this.getHomeData();
+      //this.$store.dispatch('GET_COUNT_LIST');
     }
   }
 </script>
@@ -133,9 +127,39 @@ import pinboard from '../../components/pinboard';
     object-fit: cover;
     border: none;
   }
-  .home-loading{
-    width: 100%;
-    height: 25px;
-    margin-top: 25px;
+  .home-section{
+    width: 1200px;
+    margin-top: 30px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .home-section-title{
+    display: flex;
+    height: 50px;
+    line-height: 50px;
+    justify-content: center;
+    margin: 40px 0;
+    & h1 {
+      margin: 0 30px;
+      font-size: 32px;
+      font-weight: normal;
+    }
+  }
+  .home-recommend-photo{
+    display: grid;
+    grid-template-columns: repeat(4, 285px);
+    grid-template-rows: repeat(4, 285px);
+    grid-gap: 15px;
+    justify-content: center;
+  }
+  .home-hot-photo{
+    display: grid;
+    grid-template-columns: repeat(4, 285px);
+    grid-template-rows: repeat(1, 285px);
+    grid-gap: 15px;
+    justify-content: center;
+  }
+  .home-footer{
+    
   }
 </style>

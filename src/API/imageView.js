@@ -1,13 +1,13 @@
 import api from '../plugin/axios';
 import { coverTime } from '../util/util';
 
-export const getPhotoInfo = async (photoId, id) => {
-  const { data: { data: { userId }, data: photoData } } = await api.getPhotoInfo({ 
-    params: { photoId, id } 
+export const getPhotoInfo = async (photoId) => {
+  const { data: { data: photoData } } = await api.getPhotoInfo({ 
+    params: { photoId }
   });
   photoData.createdTime = coverTime(photoData.createdTime);
   photoData.photoNormal = JSON.parse(photoData.photoNormal);
-  return { createId: userId, photoData };
+  return photoData;
 }
 
 export const getActionState = async (actionFromId, actionToId, photoId) => {

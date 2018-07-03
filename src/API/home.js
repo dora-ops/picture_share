@@ -12,9 +12,12 @@ export const getHomeCover = async () => {
   return homeCoverAry;
 }
 
-export const getLimitPhoto = async (offset, limit) => {
-  const { data: { data: photoArray } } = await api.getAllPhoto({ 
-    params: { offset, limit }
-  });
+export const getRecommendPhoto = async () => {
+  const { data: { data: photoArray } } = await api.getRecommendPhoto();
   return photoArray;
+}
+
+export const getHotPhotographer = async () => {
+  const { data: { data: photoGrapherArray }} = await api.getHotPhotographer();
+  return photoGrapherArray;
 }

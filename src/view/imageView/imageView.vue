@@ -89,18 +89,7 @@
     },
     methods: {
       async getPhotoInfo(photoId){
-        const { createId, photoData } = await getPhotoInfo(photoId, this.userId);
-        const userData = await getUserDetail(createId);
-        const actionData = await getActionState(this.userId, createId, photoId);
-        actionData.forEach(action => {
-          if(action.actionType === actionType.praise.state){
-            this.praiseState = action.actionState;
-          }
-          if(action.actionType === actionType.collection.state){
-            this.collectionState = action.actionState;
-          }
-        });
-        this.userInfo = userData;
+        const photoData = await getPhotoInfo(photoId);
         this.photoInfo = photoData;
       },
       async handlePraise(){

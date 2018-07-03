@@ -21,7 +21,7 @@
       <ul class="jumbotron-slide-toolbar">
         <li>
           <span href="#"><i class="far fa-image"></i></span>
-          <span>{{user.userPhotos}}</span>
+          <span>{{photoTotal}}</span>
         </li>
         <li>
           <span href="#"><i class="fas fa-star"></i></span>
@@ -53,6 +53,9 @@ export default {
       default(){
         return {}
       }
+    },
+    photoTotal: {
+      type: Number
     },
     concernText: {
       type: String,

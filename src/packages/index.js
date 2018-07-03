@@ -5,7 +5,7 @@ import MessageBox from './message/src/main';
 
 const components = [
   Dialog,
-  Message
+  Message,
 ]
 
 const install = components.map(component=>{

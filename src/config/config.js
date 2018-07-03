@@ -21,6 +21,25 @@ export const actionType = {
   }
 }
 
+export const categorys = [
+  {
+    category: "0",
+    categoryName: "人像"
+  },
+  {
+    category: "1",
+    categoryName: "风景"
+  },
+  {
+    category: "2",
+    categoryName: "美食"
+  },
+  {
+    category: "3",
+    categoryName: "运动"
+  }
+]
+
 export const state = {
   scuess: '1',
   error: '0'

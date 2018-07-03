@@ -14,6 +14,7 @@ export default {
 
 <style lang="scss">
   #app{
-    min-width: 1000px;
+   width: 100%;
+   overflow: hidden;
   }
 </style>

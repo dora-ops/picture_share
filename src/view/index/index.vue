@@ -28,10 +28,7 @@ import { getUserInfo } from '../../API/index.js';
     methods: {
       async getUserInfo(){
         const resData = await getUserInfo(this.userId);
-        this.$store.commit('SET_USERINFO', { 
-          userName: resData.userName, 
-          userAvatar: resData.userAvatar 
-        });
+        this.$store.commit('SET_USERINFO', resData);
       },
     },
     created(){

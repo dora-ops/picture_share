@@ -5,7 +5,6 @@
         <span :class="visible ? 'active' : 'icon-red'"><i class="fas fa-heart"></i></span>
         <span>{{photo.photoLikes}}</span>
       </div>
-      <div :class="[`circle-${photo.photoHeat}`]"><i class="far fa-circle"></i></div>
     </div>
     <div class="card-main">
       <img :data-src="photo.photoCover" alt="">

@@ -1,13 +1,10 @@
 <template>
   <section class="pinboard-container">
     <div class="pinboard-nav">
-      <div class="pinboard-nav-text">作品集锦</div>
       <ul class="pinboard-nav-rank">
-        <li>热度:</li>
-        <li class="circle-red"><i class="far fa-circle"></i></li>
-        <li class="circle-orange"><i class="far fa-circle"></i></li>
-        <li class="circle-blue"><i class="far fa-circle"></i></li>
-        <li class="circle-green"><i class="far fa-circle"></i></li>
+        <li>作品</li>
+        <li>收藏</li>
+        <li>喜欢</li>
       </ul>
     </div>
     <div class="pinboard-main">
@@ -54,10 +51,12 @@ import card from './card';
     background: #ffffff;
     & &-rank{
       margin-left: auto;
+      margin-right: auto;
       display: flex;
       align-items: center;
       & li{
         margin-left: 15px;
+        cursor: pointer;
       }
     }
   }

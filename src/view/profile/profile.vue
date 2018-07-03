@@ -4,7 +4,7 @@
     <div class="profile-content">
       <div class="profile-user">
         <label for="username">昵称</label>
-        <input class="profile-input" type="text" v-model="userProfile.userName" name="username">
+        <input class="profile-input" type="text" v-model="userProfile.userNickName" name="username">
         <label for="userdesc">简介</label>
         <input class="profile-input" type="text" v-model="userProfile.userDesc" name="userdesc">
         <button class="btn profile-btn" @click="handleSave">保存</button>
@@ -13,7 +13,7 @@
         <div class="profile-avatar-img"> 
           <img :src="userProfile.userAvatar" alt="">
         </div>
-        <el-upload ref='upload' action="http://139.199.230.46:3000/upload" :data="{type: 'avatar', userId: userId}" :headers="{Authorization:`Bearer ${userToken}`}" accept=".jpg, .jpeg" :on-success="handleResponse">
+        <el-upload ref='upload' action="http://139.199.230.46:3000/upload" :data="{type: 'avatar', userId: userId}" :headers="{Authorization:`Bearer ${userToken}`}" accept=".jpg, .jpeg" :on-success="handleResponse" :show-file-list="false">
           <button class="btn">更换图像</button>
         </el-upload>
       </div>
@@ -41,24 +41,18 @@ export default {
   computed: {
     ...mapState({
       userId: state => state.user.userId,
-      userToken: state => state.useruserToken
+      userToken: state => state.user.userToken
     })
   },
   methods: {
     async getUserProfile(id){
-      const userProfile = await getUserProfile(id);
-      this.userProfile = userProfile;
+      this.userProfile = await getUserProfile(id);
     },
     handleResponse(data){
-      const { data: { data: dataSrc }} = data;
+      const { data: dataSrc } = data;
       this.userProfile.userAvatar = dataSrc[0];
     },
     async handleSave(){
-      const uniqueMessage = await uniqueName(this.userProfile.userName);
-      if(uniqueMessage){
-        this.$message({type: 'error', message: uniqueMessage, center: true});
-        return; 
-      }
       const resData = await saveUserProfile(this.userId, this.userProfile);
       this.$message({type: resData.type, message: resData.message, center: true});
       if(resData.status !== 466){
@@ -78,7 +72,7 @@ export default {
     width: 1000px;
     margin-left: auto;
     margin-right: auto;
-    margin-top: 30px;
+    margin-top: 103px;
     padding: 15px 30px;
     height: auto;
     background: #ffffff;

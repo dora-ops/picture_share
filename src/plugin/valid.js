@@ -12,7 +12,7 @@ const validRule = {
     }
   },
   isMinLength(value, length, error){
-    if(value.length < lenght){
+    if(value.length < length){
       return error;
     }
   },
@@ -38,7 +38,7 @@ class validator {
   run(){
     for(let i = 0, fn; fn = this.valid[i++];){
       let errorMsg = fn();
-      if(errorMsg) return errorMsg;
+      return errorMsg ? errorMsg : undefined
     }
   }
 }

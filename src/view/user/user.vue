@@ -1,7 +1,7 @@
 <template>
   <section class="user-container">
-    <min-jumbotron :user="userInfo" :concernText="concernText" @changeConcern="changeConcern"></min-jumbotron>
-    <min-pinboard :photoData="userInfo.photos"></min-pinboard>
+    <min-jumbotron :user="userInfo" :photoTotal="photoTotal" :concernText="concernText" @changeConcern="changeConcern"></min-jumbotron>
+    <min-pinboard :photoData="photos"></min-pinboard>
   </section>
 </template>
 
@@ -33,8 +33,9 @@ export default {
       this.getUserHomeData(id);
     },
     id(val, oldval){
-      if(val !== oldval){
-       this.getConcernState(val);
+      if(val !== String(this.userId)){
+        console.log(1);
+        this.getConcernState(val);
       }
     }
   },
@@ -44,19 +45,17 @@ export default {
     }),
     concernText(){
       return this.concernState === state.scuess ? '已关注' : '关注他';
+    },
+    photoTotal(){
+      return this.photos.length;
     }
   },
   methods: {
     async getUserHomeData(id){
-      this.userInfo = await getUserDetail(id);
-      let { photos } = this.userInfo;
-      this.userInfo.userLikes = 0;
-      this.userInfo.userCollections = 0;
-      this.userInfo.userPhotos = this.userInfo.photos.length;
-      photos.forEach(photo => {
-        this.userInfo.userLikes += photo.photoLikes;
-        this.userInfo.userCollections += photo.photoCollections;
-      });
+      let resData = await getUserDetail(id);
+      let { photos } = resData;
+      this.userInfo = resData;
+      this.photos = photos;
     },
     async getConcernState(id){
       const concernState = await getConcernState(this.userId, id);
