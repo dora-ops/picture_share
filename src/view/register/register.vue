@@ -40,15 +40,15 @@ import { uniqueName, registerUser } from '../../API/register.js';
           error: '用户名不能为空'
         }])
 
+        validator.add(userNickName, [{
+          name: 'isNull',
+          error: '昵称不能为空'
+        }])
+        
         validator.add(userPassword, [{
           name: 'isPattern',
           allowed: /^(\w){6,}$/,
           error: '密码不能少于6个字符'
-        }])
-
-        validator.add(userNickName, [{
-          name: 'isNull',
-          error: '昵称不能为空'
         }])
 
         this.errorMsg = validator.run();

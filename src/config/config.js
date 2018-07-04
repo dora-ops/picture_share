@@ -14,11 +14,6 @@ export const actionType = {
     text: '评论',
     route: 'comments'
   },
-  letter: {
-    state: '3',
-    text: '私信',
-    route: 'letter'
-  }
 }
 
 export const categorys = [

@@ -3,12 +3,12 @@
     <ul class="messagelist-list">
       <li v-for="message in messageList" :key="message.id" class="messagelist-item">
         <div class="messagelist-img">
-          <img :src="message.detail.userAvatar" alt="">  
+          <img :src="message.userInfo.userAvatar" alt="">  
         </div>    
         <div class="messagelist-meta">
-          <span>{{message.detail.userName}}</span>
+          <span>{{message.userInfo.userNickName}}</span>
           <span>{{messageText}}你的作品</span>
-          <span>{{message.photoInfo.photoTitle}}</span>
+          <span>{{message.photo.photoTitle}}</span>
           <div class="messagelist-time">{{message.createdTime}}</div>
         </div>
       </li>

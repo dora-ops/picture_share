@@ -40,14 +40,13 @@
     },
     methods: {
       getMessageCount(type){
-        if(this.userMessage.length === 0 ){ return }
+        if(this.userMessage.length === 0 ) return; 
         let message = this.userMessage.find((message)=>{
           if(message.messageType === type){
             return message;
           }
         })
         return message.messageCount > 0 ? message.messageCount : '';
-
       }
     },
     mounted(){

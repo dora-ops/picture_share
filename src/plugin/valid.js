@@ -38,7 +38,7 @@ class validator {
   run(){
     for(let i = 0, fn; fn = this.valid[i++];){
       let errorMsg = fn();
-      return errorMsg ? errorMsg : undefined
+      if(errorMsg){ return errorMsg };
     }
   }
 }

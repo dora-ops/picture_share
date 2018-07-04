@@ -78,7 +78,7 @@ import userNormal from './children/userNormal';
     },
     created(){
       this.getHomeData();
-      //this.$store.dispatch('GET_COUNT_LIST');
+      this.$store.dispatch('GET_COUNT_LIST');
     }
   }
 </script>

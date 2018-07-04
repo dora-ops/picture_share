@@ -10,14 +10,30 @@ export const getPhotoInfo = async (photoId) => {
   return photoData;
 }
 
-export const getActionState = async (actionFromId, actionToId, photoId) => {
-  const { data: { data } } = await api.getActionState({
-    params: { actionFromId, actionToId, photoId }
+export const getMessageState = async (messageFromId, messageToId, photoId) => {
+  const { data: { data } } = await api.getPhotoState({
+    params: { messageFromId, messageToId, photoId }
   })
   return data;
 }
 
-export const postAction = async (actiondata) => {
-  const { data: { data: { actionState } } } = await api.postUserAction({ data: actiondata });
-  return actionState;
+export const postPhotoMessage = async (photoData) => {
+  const { data: { data: messageState } } = await api.postPhotoMessage({ data: photoData });
+  return messageState;
+}
+
+export const postComment = async (photoComment) => {
+  const { data: { data } } = await api.postCommentCreate({ data: photoComment });
+  return data;
+}
+
+export const getCommentList = async (photoId, offset, limit) => {
+  let { data: { data: { commentList, total } } } = await api.getCommentList({
+    params: { photoId, offset, limit }
+  })
+  commentList = commentList.map((comment) => { 
+    comment.createdTime = coverTime(comment.createdTime);
+    return comment;
+  })
+  return { commentList, total };
 }

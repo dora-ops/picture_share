@@ -78,11 +78,13 @@
           name: 'isNull',
           error: '简介不能为空'
         }])
+
         validator.add(this.normalFileList, [{
           name: 'isMinLength',
           allowed: 1,
           error: '请添加图片'
         }])
+        
         let errorMsg = validator.run();
         return errorMsg;
       }
@@ -97,7 +99,7 @@
           console.log(resData);
           if(resData){
             this.$message({ message: resData.message, type: 'info', onClose: this.handleClose});
-            //this.$router.push({ name: 'imageView', params: { id: resData.id }});
+            this.$router.push({ name: 'imageView', params: { id: resData.id }});
           }
         }
       },

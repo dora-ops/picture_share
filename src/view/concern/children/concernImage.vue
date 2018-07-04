@@ -9,7 +9,7 @@
           <img :src="userInfo.userAvatar" alt="">
         </div>
         <div class="concernImage-userMeta">
-          <span>{{userInfo.userName}}</span>
+          <span>{{userInfo.userNickName}}</span>
           <span>{{imageDetail.createdTime}}</span>
         </div>
       </div>
@@ -24,7 +24,7 @@
         </li>
         <li>
           <span class="concernImage-icon"><i class="fas fa-star"></i></span>
-          <span>{{imageDetail.photoCollections}}</span>
+          <span>{{imageDetail.photoCollection}}</span>
         </li>
       </ul>
     </div>

@@ -8,21 +8,21 @@
         <div class="concern-avatar">
           <img :src="userDetail.userAvatar" alt="" srcset="">
         </div>
-        <p class="concern-name">{{userDetail.userName}}</p>
+        <p class="concern-name">{{userDetail.userNickName}}</p>
       </div>
       <div class="concern-meta">
           <ul class="concern-metalist">
             <li>
               <p>粉丝</p>
-              <p>{{userDetail.fanCount}}</p>
+              <p>{{userDetail.fanTotal}}</p>
             </li>
             <li>
               <p>作品</p>
-              <p>{{userDetail.photoCount}}</p>
+              <p>{{userDetail.photoTotal}}</p>
             </li>
             <li>
               <p>关注</p>
-              <p>{{userDetail.followCount}}</p>
+              <p>{{userDetail.concernTotal}}</p>
             </li>
           </ul>
         </div>
@@ -32,7 +32,6 @@
 
 <script>
   import { mapState } from 'vuex';
-  import { getUserDetail } from '../../API/user.js';
   import  concernImage from './children/concernImage.vue';
   import { getUserFromConcern, getConcerenPhotoList } from '../../API/concern.js';
 
