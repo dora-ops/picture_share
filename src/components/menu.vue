@@ -7,9 +7,10 @@
       <h3 class="menu-logo-text">极简</h3>
     </div>
     <nav class="menu-nav">
-      <router-link :to="{name: 'home'}" exact>发现</router-link>
-      <router-link :to="{name: 'concern'}" exact>关注</router-link>
-      <router-link :to="{name: 'message',}" exact>
+      <router-link :to="{name: 'home'}" exact-active-class="menu-active">首页</router-link>
+      <router-link :to="{name: 'find'}" exact-active-class="menu-active">发现</router-link>
+      <router-link :to="{name: 'concern'}" exact-active-class="menu-active">关注</router-link>
+      <router-link :to="{name: 'message',}" exact-active-class="menu-active">
         消息
       <span class="menu-badge" v-if="messageTotal">{{messageTotal}}</span>
       </router-link>
@@ -66,7 +67,7 @@ export default {
   .open{
     display: block !important;
   }
-  .router-link-active{
+  .menu-active{
     background: #5db0c6;
   }
   .menu-container{

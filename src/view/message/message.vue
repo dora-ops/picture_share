@@ -3,7 +3,7 @@
     <div class="message-main">
       <div class="message-left">
         <ul class="message-list">
-          <router-link class="message-list-item" v-for="(message, index) in messageType" :key="index" :to="{name: 'messagelist', params: {type: message.route }}" tag="li" exact-active-class="message-active">
+          <router-link class="message-list-item" v-for="(message, index) in messageType" :key="index" :to="{name: 'messagelist', params: {type: message.route }}" tag="li" exact-active-class="message-active" v-if="message.state !== messageType.all.state">
             <span>{{message.text}}</span>
             <span>{{getMessageCount(message.state)}}</span>
           </router-link>
@@ -34,7 +34,7 @@
         userMessage: state => state.user.userMessage
       }),
       activeType(){
-        let key = Object.keys(actionType)[0]
+        let key = Object.keys(actionType)[1]
         return key
       }
     },

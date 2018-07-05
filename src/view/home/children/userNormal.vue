@@ -1,10 +1,10 @@
 <template>
-  <div class="userNormal-main">
+  <div class="userNormal-main" v-lazy-container="{ selector: 'img'}" @click="routeUser(photographer)">
     <div class="userNormal-topPic">
-      <img :src="photographer.userBgimg" alt="">
+      <img :data-src="photographer.userBgimg" alt="">
     </div>
     <div class="userNormal-avatar">
-      <img :src="photographer.userAvatar" alt="">
+      <img :data-src="photographer.userAvatar" alt="">
     </div>
     <div class="userNormal-nickName">
       <p>{{photographer.userNickName}}</p>
@@ -30,6 +30,11 @@
       },
       fanTotal: {
         type: Number
+      }
+    },
+    methods: {
+      routeUser(user){
+        this.$router.push({name: 'user', params: { id: user.id }})
       }
     }
   }

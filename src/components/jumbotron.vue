@@ -8,7 +8,7 @@
         <img :src="user.userAvatar" alt="">
       </div>
       <div class="jumbotron-slide-text">
-        <h3>{{user.userName}}</h3>
+        <h3>{{user.userNickName}}</h3>
         <p>{{user.userDesc}}</p>
       </div>
       <div class="jumbotron-slide-detail">
@@ -21,10 +21,10 @@
       <ul class="jumbotron-slide-toolbar">
         <li>
           <span href="#"><i class="far fa-image"></i></span>
-          <span>{{photoTotal}}</span>
+          <span>{{user.photoTotal}}</span>
         </li>
         <li>
-          <span href="#"><i class="fas fa-star"></i></span>
+          <span class="icon-yellow"><i class="fas fa-star"></i></span>
           <span>{{user.userCollections}}</span>
         </li>
       </ul>

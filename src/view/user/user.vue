@@ -1,14 +1,18 @@
 <template>
   <section class="user-container">
-    <min-jumbotron :user="userInfo" :photoTotal="photoTotal" :concernText="concernText" @changeConcern="changeConcern"></min-jumbotron>
-    <min-pinboard :photoData="photos"></min-pinboard>
+    <min-jumbotron :user="userInfo" :concernText="concernText" @changeConcern="changeConcern"></min-jumbotron>
+    <ul class="user-toolbar">
+      <router-link tag="li" :to="{name: 'photoType', params: { type: 'all' }}" exact-active-class="user-active">作品</router-link>
+      <router-link tag="li" :to="{name: 'photoType', params: { type: 'praise' }}" exact-active-class="user-active">点赞</router-link>
+      <router-link tag="li" :to="{name: 'photoType', params: { type: 'collection' }}" exact-active-class="user-active">收藏</router-link>
+    </ul> 
+    <router-view></router-view>
   </section>
 </template>
 
 <script>
 import { mapState } from 'vuex';
 import { state } from '../../config/config.js';
-import pinboard from '../../components/pinboard';
 import jumbotron from '../../components/jumbotron';
 import { getUserDetail, getUserPhoto, getConcernState, toogleConcernState } from '../../API/user.js';
 
@@ -16,14 +20,12 @@ export default {
   name: 'user',
   components: {
     'min-jumbotron': jumbotron,
-    'min-pinboard': pinboard
   },
   data(){
     return {
       id: null,
       concernState: null,
       userInfo: {},
-      photos: []
     }
   },
   watch:{
@@ -34,7 +36,6 @@ export default {
     },
     id(val, oldval){
       if(val !== String(this.userId)){
-        console.log(1);
         this.getConcernState(val);
       }
     }
@@ -52,24 +53,39 @@ export default {
   },
   methods: {
     async getUserHomeData(id){
-      let resData = await getUserDetail(id);
-      let { photos } = resData;
-      this.userInfo = resData;
-      this.photos = photos;
+      this.userInfo = await getUserDetail(id);
     },
     async getConcernState(id){
-      const concernState = await getConcernState(this.userId, id);
-      this.concernState = concernState;
+      this.concernState = await getConcernState(this.userId, id);
     },
     async changeConcern(){
-      const concernState = await toogleConcernState(this.userId, this.userInfo.id);
-      this.concernState = concernState;
+      this.concernState = await toogleConcernState(this.userId, this.userInfo.id);
     }
   },
   created() {
     const { params: { id } } = this.$route;
     this.id = id;
     this.getUserHomeData(id);
+    this.$router.push({ name: 'photoType', params: { type: 'all' } })
   }
 }
 </script>
+
+<style lang="scss">
+  .user-active{
+    color: #5db0c6;
+    border-bottom: 1px solid #5db0c6;
+  }
+  .user-toolbar{
+    width: 100%;
+    background: #ffffff;
+    height: 60px;
+    line-height: 60px;
+    display: flex;
+    justify-content: center;
+    & li {
+      padding: 0 15px;
+      cursor: pointer;
+    }
+  }
+</style>

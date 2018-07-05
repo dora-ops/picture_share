@@ -13,7 +13,7 @@
       <section class="imageView-right">
           <div class="imageView-avatar" @click="routeHome">
             <span class="avatar-img"><img :src="userInfo.userAvatar" alt=""></span>
-            <span class="avatar-name">{{userInfo.userName}}</span>
+            <span class="avatar-name">{{userInfo.userNickName}}</span>
           </div>
           <div class="imageView-meta">
             <h3 class="imageView-info">{{photoInfo.photoTitle}}</h3>
@@ -101,7 +101,7 @@
         commentTotal: 0,
         start: 0,
         length: 2,
-        isSubmit: false
+        isSubmit: false,
       }
     },
     components: {
@@ -121,10 +121,10 @@
         userAvatar: state => state.user.userAvatar
       }),
       praiseText(){
-        return this.praiseState === state.error ? '点赞支持' : '已点赞';
+        return this.praiseState === state.error || undefined ? '点赞支持' : '已点赞';
       },
       collectionText(){
-        return this.collectionState === state.error ? '收藏作品' : '已收藏';
+        return this.collectionState === state.error || undefined ? '收藏作品' : '已收藏';
       },
       moreComment(){
         return this.commentTotal > length ? true : false; 
@@ -161,9 +161,11 @@
         let resData = await getMessageState(this.userId, this.userInfo.id, this.photoId);
         let praise = resData.find((message)=> message.messageType === actionType.praise.state);
         let collection = resData.find((message) => message.messageType === actionType.collection.state);
-        if(praise && collection){
+        if(praise !== undefined){
           this.praiseState = praise.messageState;
-          this.collectionState = collection.messageState;
+        }
+        if(collection !== undefined){
+          this.collectionState = collection.messageState
         }
       },
       async handleComment(){  

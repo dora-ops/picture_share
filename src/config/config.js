@@ -1,4 +1,7 @@
 export const actionType = {
+  all: {
+    state: '-1',
+  },
   praise: {
     state: '0',
     text: '点赞',
@@ -32,6 +35,30 @@ export const categorys = [
   {
     category: "3",
     categoryName: "运动"
+  }
+]
+
+
+export const findList = [
+  {
+    findType: 'new',
+    findName: '最新'
+  },
+  {
+    findType: 'hot',
+    findName: '热门'
+  },
+  {
+    findType: 'day',
+    findName: '今日人气榜'
+  },
+  {
+    findType: 'week',
+    findName: '7天人气榜'
+  },
+  {
+    findType: 'month',
+    findName: '30天人气榜'
   }
 ]
 

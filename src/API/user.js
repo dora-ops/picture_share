@@ -1,4 +1,5 @@
 import api from '../plugin/axios';
+import { actionType } from '../config/config';
 
 export const getUserDetail = async (id) => {
   const { data: { data: userData } } = await api.getUserhome({ params: { id } });
@@ -22,4 +23,11 @@ export const toogleConcernState = async (concernFromId, userId) => {
     data: {concernFromId, userId}
   })
   return concernState;
+}
+
+export const getUserPhotoFromType = async (id, type) => {
+  const { data: { data: photoList } } = await api.getUserPhotolist({ 
+    params: { id, type }
+  })
+  return photoList;
 }

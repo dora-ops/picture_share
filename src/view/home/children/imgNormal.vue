@@ -1,12 +1,12 @@
 <template>
-  <div class="imgNormal-main" @mouseout="showInfo = false " @mouseover=" showInfo = true">
+  <div class="imgNormal-main" @mouseout="showInfo = false " @mouseover=" showInfo = true" v-lazy-container="{ selector: 'img'}" @click="routeImageView(photo)">
     <div class="imgNormal-tag">{{photo.photoCategoryName}}</div>
     <div class="imgNormal-img">
-      <img :src="photo.photoCover" alt="">
+      <img :data-src="photo.photoCover" alt="">
     </div>
     <div class="imgNormal-info" v-show="showInfo">
       <div class="imgNormal-avatar">
-        <img :src="avatar" alt="">
+        <img :data-src="avatar" alt="">
       </div>
       <div class="imgNormal-nickName">
         <p>{{photo.photoAvatar}}</p>
@@ -33,6 +33,11 @@
     data(){
       return {
         showInfo: false
+      }
+    },
+    methods: {
+      routeImageView(photo){
+        this.$router.push({ name: 'imageView', params: { id: photo.id }})
       }
     }
   }
