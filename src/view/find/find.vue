@@ -13,6 +13,11 @@
   import { findList } from '../../config/config.js';
   export default {
     name: 'find',
+    watch: {
+      '$route'(){
+
+      }
+    },
     data(){
       return {
         findList: findList

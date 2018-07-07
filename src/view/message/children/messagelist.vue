@@ -1,6 +1,9 @@
 <template>
   <div class="messagelist-main">
-    <ul class="messagelist-list">
+    <div class="messagelist-noData" v-if="messageList.length === 0">
+      <p>暂时还没有消息哦</p>
+    </div>
+    <ul class="messagelist-list" v-else>
       <li v-for="message in messageList" :key="message.id" class="messagelist-item">
         <div class="messagelist-img">
           <img :src="message.userInfo.userAvatar" alt="">  
@@ -93,8 +96,13 @@
       font-size: 14px;
     }
   }
-  .messagelist-photo{
-    
+  .messagelist-noData{
+    font-size: 18px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
   }
 </style>
 

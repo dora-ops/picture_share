@@ -1,7 +1,10 @@
 <template>
   <section class="concern-container">
     <div class="concern-left">
-       <min-concernImage v-for="photo in photolist" :key="photo.id" :imageDetail="photo" ></min-concernImage> 
+       <div v-if="photolist.length === 0" class="concern-noData">
+         <p>暂时没有关注的人</p>
+       </div>
+       <min-concernImage v-else v-for="photo in photolist" :key="photo.id" :imageDetail="photo" ></min-concernImage> 
     </div>
     <div class="concern-right">
       <div class="concern-userInfo">
@@ -76,6 +79,15 @@
   }
   .concern-left{
     width: 680px;
+    height: 300px;
+    background: #ffffff;
+    position: relative;
+  }
+  .concern-noData{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
   }
   .concern-right{
     width: 240px;

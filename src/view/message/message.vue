@@ -91,6 +91,7 @@
     width: 860px;
     min-height: 300px;
     background: #ffffff;
+    position: relative;
   }
 </style>
 

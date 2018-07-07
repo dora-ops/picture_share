@@ -13,7 +13,7 @@
       </div>
       <div class="jumbotron-slide-detail">
         <div class="detail-total">
-          <span class="icon-red"><i class="fas fa-heart"></i></span>
+          <span class="icon-default"><i class="fas fa-heart"></i></span>
           <span>{{user.userLikes}}</span>
         </div>
         <span class="detail-total" v-if="!isUser"><i class="far fa-envelope"></i></span>
@@ -24,7 +24,7 @@
           <span>{{user.photoTotal}}</span>
         </li>
         <li>
-          <span class="icon-yellow"><i class="fas fa-star"></i></span>
+          <span class="icon-default"><i class="fas fa-star"></i></span>
           <span>{{user.userCollections}}</span>
         </li>
       </ul>

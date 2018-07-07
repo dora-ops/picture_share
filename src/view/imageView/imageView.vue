@@ -69,7 +69,7 @@
           <h3>{{commentTotal}}条评论</h3>
           <min-commentlist v-for="comment in commentList" :key="comment.id" :commentInfo="comment"></min-commentlist>
           <div class="imageView-more">
-            <button class="btn" @click="getMoreComment">查看更多</button>
+            <button class="btn" @click="getMoreComment" v-if="moreComment">查看更多</button>
           </div>
         </div>
         <div v-else>
@@ -127,7 +127,7 @@
         return this.collectionState === state.error || undefined ? '收藏作品' : '已收藏';
       },
       moreComment(){
-        return this.commentTotal > length ? true : false; 
+        return this.commentList.length < this.commentTotal ? true : false; 
       }
     },
     methods: {
@@ -173,11 +173,13 @@
           this.$message({message: '评论不能为空', type: 'error'})
           return;
         }
+        // 缓存评论
+        let photoComment = this.photoComment;
         this.createNewComment();
         this.isSubmit = true;
-        this.photoComment = " ";
+        this.photoComment = "";
         let resData = await postComment({
-          commentContent: this.photoComment, 
+          commentContent: photoComment, 
           commentFromId: this.userId,
           commentFromAvatar: this.userAvatar,
           commentFromNickName: this.userName,
@@ -385,7 +387,7 @@
       margin-top: 15px; 
     }
   }
-  .imageView-submit{
+  .imageView-submit.btn{
     float: right;
     margin-top: 15px;
     background: #039BE5;

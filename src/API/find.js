@@ -1,13 +1,13 @@
 import api from '../plugin/axios';
 import { coverTime  } from '../util/util'
 
-export const getPhotoFromType = async (type) => {
-  let { data: { data: photoList } } = await api.getTypePhotolist({
-    params: { type }
+export const getPhotoFromType = async (id, type, start, length ) => {
+  let { data: { data: { resData, photoTotal } } } = await api.getTypePhotolist({
+    params: { id, type, start, length }
   })
-  photoList = photoList.map((photo) => {
+  resData = resData.map((photo) => {
     photo.createdTime = coverTime(photo.createdTime);
     return photo;
   })
-  return photoList;
+  return { resData, photoTotal };
 }

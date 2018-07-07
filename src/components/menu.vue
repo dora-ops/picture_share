@@ -4,7 +4,7 @@
       <div class="menu-logo-font">
         <i class="fas fa-camera-retro"></i>
       </div>
-      <h3 class="menu-logo-text">极简</h3>
+      <router-link :to="{name: 'home'}" tag="h3" class="menu-logo-text">极简</router-link>
     </div>
     <nav class="menu-nav">
       <router-link :to="{name: 'home'}" exact-active-class="menu-active">首页</router-link>
