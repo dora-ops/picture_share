@@ -1,21 +1,24 @@
-# vue-cargo
+## 关于 
 
-> A Vue.js project
+用vue全家桶+koa自己搭建起来的一个图片分享社区,
 
-## Build Setup
+## 功能
 
-``` bash
-# install dependencies
-npm install
+1. 登陆/注册
+2. 首页推荐
+3. 最热摄影师
+4. 发现
+5. 点赞/收藏
+6. 评论
+7. 图像上传(OSS存储)
+8. 消息
+9. 关注
 
-# serve with hot reload at localhost:8080
-npm run dev
+## 技术栈
 
-# build for production with minification
-npm run build
+1. vue全家桶
+2. css预处理器SCSS
+3. koa+mysql搭建后台服务
+4. 腾讯云OSS存储图片
+5. axios请求后台服务
 
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).

@@ -25,7 +25,7 @@
     </div>
     <div class="findlist-more">
       <button @click="handleMore" class="btn" v-if="isMore" >查看更多</button>
-      <h3 v-else>The end</h3>
+      <h3 v-else>没有更多了</h3>
     </div>
   </section>
 </template>

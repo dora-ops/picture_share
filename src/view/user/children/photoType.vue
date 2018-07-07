@@ -1,5 +1,8 @@
 <template>
   <section class="photoType-main">
+    <div v-if="photoList.length === 0" class="photoType-noData">
+      <p>快去添加图片吧</p>
+    </div>
     <min-card v-for="photo in photoList" :key=" photo.id" :photo="photo"></min-card>
   </section>
 </template>
@@ -23,7 +26,7 @@
     computed: {
       ...mapState({
         userId: state => state.user.userId
-      })
+      }),
     },
     watch: {
       '$route'(to, from, next){
@@ -54,5 +57,13 @@
     grid-template-rows: repeat(auto-fill, 200px);
     grid-gap: 15px;
     justify-content: center;
+  }
+  .photoType-noData{
+    width: 1200px;
+    height: 400px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    align-self: center;
   }
 </style>
